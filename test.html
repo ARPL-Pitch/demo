@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="css/notyf.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="imgs/ARPL-cropped.svg" sizes="192x192">
+    <link rel="shortcut icon" href="/static/images/favicon.png" type="image/x-icon">
+
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="First Research Program exclusive for Africans" />
+    <meta property="og:type" content="image/jpeg" />
+    <meta property="og:title" content="ARPL" />
+    <meta property="og:description" content="First Research Program exclusive for Africans" />
+    <meta property="og:image" content="http://www.wearecroma.it/static/images/image-og.jpg" />
+
+    <title>ARPL</title>
+
+    <!-- ... other head elements ... -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Remove or comment out the SplitText plugin for now -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
+    <link rel="preload" href="https://prod.spline.design/nOriPmDXz4o9htYW/scene.splinecode" as="fetch">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="cursor">
+        <div class="cursor-borderz"></div>
+    </div>
+
+    <!-- Hamburger menu -->
+    <div class="transition-layer layer-three gradient g1 animate"></div>
+    <div class="transition-layer layer-one main-menu">
+        <div class="main-menu-container">
+            <div class="container">
+                <div class="row" style="background-color: #121212 !important;">
+                    <div class="col-sm-12 col-md-6 col-left">
+                        <ul class="loop">
+                            <li>
+                                <h1 class="main-menu-text gradient g1 animate"><a href="/web-design">Apply</a></h1>
+                            </li>
+                            <li>
+                                <h1 class="main-menu-text gradient g6 animate"><a href="/sviluppo">Our Impact</a></h1>
+                            </li>
+                            <li>
+                                <h1 class="main-menu-text gradient g4 animate"><a href="/grafica">About Us</a></h1>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 d-flex justify-content-end col-right right-menu-col">
+                        <div class="main-menu-footer right-side is-fixed" style="opacity: 0;">
+                            <ul>
+                                <li>African Research</li>
+                                <li><a class="main-menu-link a-hover" target="_blank"
+                                        href="http://maps.apple.com/?q=44.68887158655719,8.011963304591182">1050
+                                        Printech Ave, Honeydew, Roodepoort</a></li>
+                                <li><a class="main-menu-link a-hover" href="tel:+393803905614">+27 0815270763</a></li>
+                                <li><a class="main-menu-link a-hover" href="tel:+393313596329">+27 xxxxxxxxxx</a></li>
+                                <li>
+                                    <div style="width: 120px; margin-left: auto;" class="d-flex align-items-center">
+                                        <a href="https://www.instagram.com/wearecroma/" target="_blank"
+                                            class="main-menu-link">
+                                            <div class="instagram"></div>
+                                        </a>
+                                        <span class="dot"></span>
+                                        <a href="https://www.facebook.com/wearecroma" target="_blank"
+                                            class="main-menu-link">
+                                            <div class="facebook"></div>
+                                        </a>
+                                        <span class="dot"></span>
+                                        <a href="https://www.linkedin.com/company/wearecroma/" target="_blank"
+                                            class="main-menu-link">
+                                            <div class="linkedin"></div>
+                                        </a>
+                                        <span class="dot"></span>
+                                        <a href="https://www.behance.net/wearecroma" target="_blank"
+                                            class="main-menu-link">
+                                            <div class="behance"></div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li><a href="/chi-siamo" class="main-menu-link a-hover">CONTACT US<span></span></a></li>
+                                <li><a href="/en" class="main-menu-link a-hover">CHANGE LANGUAGE<span></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header nav bar -->
+    <nav>
+        <div class="nav-bg-blur"></div>
+        <div class="d-flex align-items-center" style="height: 100%;">
+            <div class="pl-5 px-5 container-fluid nav-container">
+                <div class="row d-flex align-items-center">
+                    <div class="col">
+                        <div class="row d-flex align-items-center nav-hamburger">
+                            <div class="col">
+                                <div class="nav-icon nav-icon-white d-flex align-items-center"><span></span></div>
+                            </div>
+                            <div class="col d-flex align-items-center">
+                                <h6>MENU</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <a href="/" class="nav-logo">
+                            <img src="imgs/ARPL-cropped.svg" width="40%">
+                        </a>
+                    </div>
+
+
+                    <div class="col">
+                        <a href="mailto:info@croma.email" class="nav-a a-hover">ARPL@africa.email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="canvas-cont">
+            <!-- 3D model of African continent -->
+            <canvas id="canvas3d"></canvas>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Developing the Next Generation of African Researchers.</h1>
+            <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener noreferrer">
+                <button class="cta-button">Be a Scholar</button>
+            </a>
+        </div>
+
+
+    </section>
+
+
+    <section id="our-impact" class="section bg-blur py-5 s-service p-0">
+        <div class="container text-center">
+            <h1 class="text-white mb-4">Our Numbers</h1>
+            <p class="text-white mb-5"></p>
+
+            <div class="row">
+                <div class="col-md-x col-lg-x mb-4">
+                    <div class="card">
+                        <div class="card-container">
+                            <h2>Curriculum in 5 Languages</h2>
+                            <br>
+                            <p>Our 51,000-word graduate-level curriculum is beginner-friendly and has been translated
+                                into Zulu, Arabic, Swahili, French, and Yoruba, ensuring accessibility for diverse
+                                communities across Africa.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-x col-lg-x mb-4">
+                    <div class="card">
+                        <div class="card-container">
+                            <h2>10,000+ Hours of Work</h2>
+                            <br>
+                            <p>With over 10,000 hours dedicated to research and program development, our diverse team of
+                                9 members has collaborated to create impactful and innovative scientific resources.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-x col-lg-x mb-4">
+                    <div class="card">
+                        <div class="card-container">
+                            <h2>Impact in 15+ Countries</h2>
+                            <br>
+                            <p>Our programs have reached over 15 countries across all regions of Africa, driving
+                                education, innovation, and sustainable development in underserved communities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Our Partners Section -->
+    <section id="our-partners" class="section bg-blur-constant py-5">
+        <div class="container text-center">
+            <h1 class="text-white mb-4">Our Partners</h1>
+            <br>
+            <div class="partners-carousel">
+                <div class="partners-track">
+                    <!-- Add your partner logos here -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Partner 1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_logo.svg" alt="Partner 2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Partner 3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg" alt="Partner 4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Facebook_Logo.png" alt="Partner 5">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+                        alt="Partner 6">
+                    <!-- Duplicate logos for seamless looping -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Partner 1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_logo.svg" alt="Partner 2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Partner 3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg" alt="Partner 4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Facebook_Logo.png" alt="Partner 5">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+                        alt="Partner 6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <footer class="s-footer bg-blur">
+        <div class="h-desktop" style="height: 100%;">
+            <div class="clip-footer box g3"></div>
+            <div class="container-fluid" style="height: 100%">
+                <div class="row section hero d-flex align-items-center position-relative p-0 " style="height: 100%">
+                    <div class="container d-flex align-items-center">
+                        <div class="row d-flex align-items-center" style="width: 200px; margin: 380px;">
+                            <a class="a-footer-mail gradient g6 animate"
+                                href="mailto:info@croma.email"><span>ARPL@AFRICA.EMAIL</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById("particle-canvas");
+            const ctx = canvas.getContext("2d");
+
+            // Set canvas size to full screen
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Particle class
+            class Particle {
+                constructor(x, y, size, speedX, speedY, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = size;
+                    this.speedX = speedX;
+                    this.speedY = speedY;
+                    this.color = color;
+                    this.baseSize = size;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // Reset particle if it goes off screen
+                    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+                    // Add glow effect
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.color;
+
+                    // Fill particle with a gradient for elegance
+                    const gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0, this.x, this.y, this.size
+                    );
+                    gradient.addColorStop(0, this.color);
+                    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                }
+            }
+
+            // Create particles
+            const particles = [];
+            const colors = ["rgba(255, 255, 255, 0.8)", "rgba(200, 200, 255, 0.8)", "rgba(255, 200, 200, 0.8)"]; // Elegant color variations
+            for (let i = 0; i < 150; i++) {
+                const size = Math.random() * 3 + 1; // Slightly larger particles
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const speedX = (Math.random() - 0.5) * 0.5;
+                const speedY = (Math.random() - 0.5) * 0.5;
+                const color = colors[Math.floor(Math.random() * colors.length)]; // Random elegant color
+                particles.push(new Particle(x, y, size, speedX, speedY, color));
+            }
+
+            // Animation loop
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Resize canvas on window resize
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Add mouse interaction for elegance
+            window.addEventListener("mousemove", (e) => {
+                particles.forEach(particle => {
+                    const dx = e.clientX - particle.x;
+                    const dy = e.clientY - particle.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        gsap.to(particle, {
+                            x: particle.x - dx * 0.05,
+                            y: particle.y - dy * 0.05,
+                            size: particle.baseSize * 1.5, // Slightly enlarge particles near the cursor
+                            duration: 0.5,
+                            ease: "power2.out",
+                        });
+                    } else {
+                        gsap.to(particle, {
+                            size: particle.baseSize, // Reset size
+                            duration: 0.5,
+                            ease: "power2.out",
+                        });
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+    <script type="module" src="js/spline.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
