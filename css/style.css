@@ -1906,8 +1906,6 @@ ul {
     transform: translateY(-2px);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 
 .card {
     background: linear-gradient(49deg,
@@ -1951,9 +1949,23 @@ ul {
     inset: 3px;
 }
 
-.bg-blur {
+.bg-blur-first {
     background: linear-gradient(to bottom,
-            rgba(9, 9, 9, 0.2),
+            rgba(9, 9, 9, 0),
+            /* Fully transparent at the top */
+            rgba(9, 9, 9, 0.5)
+            /* Semi-transparent at the center/bottom */
+        );
+    backdrop-filter: blur(10px);
+    /* Optional: for better visual effect */
+    z-index: 999;
+    /* High z-index to ensure it stays on top */
+}
+
+
+.bg-blur-second {
+    background: linear-gradient(to bottom,
+            rgba(9, 9, 9, 0.51),
             /* Fully transparent at the top */
             rgba(9, 9, 9, 1)
             /* Semi-transparent at the center/bottom */
@@ -1965,7 +1977,7 @@ ul {
 }
 
 .bg-blur-constant {
-    background:  rgba(9, 9, 9, 1);
+    background: rgba(9, 9, 9, 1);
     backdrop-filter: blur(10px);
     /* Optional: for better visual effect */
     z-index: 999;
@@ -2038,4 +2050,91 @@ ul {
         transform: translateX(-50%);
         /* Move track to the left */
     }
+}
+
+
+
+/* Our Team Section */
+/* Our Team Section */
+#our-team {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Stack carousel and buttons vertically */
+    align-items: center; /* Center everything horizontally */
+    width: 100%;
+}
+
+.team-carousel {
+    width: calc(370px * 3 + 20px * 2); /* Width for 3 cards + gaps */
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px; /* Space between carousel and buttons */
+    margin-left: -17px; /* Shift the entire carousel to the left */
+}
+
+.team-track {
+    display: flex;
+    gap: 20px; /* Space between cards */
+    width: max-content; /* Allow horizontal scrolling */
+    padding: 20px 0;
+}
+
+.team-card {
+    background: linear-gradient(49deg,
+            #5c1a22 0%,
+            #79232e 25%,
+            #9a4a3a 50%,
+            #baa768 75%,
+            #8a7e4d 100%
+        );
+    width: 370px;
+    height: 310px;
+    border-radius: 12px;
+    position: relative;
+    flex: 0 0 auto; /* Prevent flex shrinking */
+}
+
+.team-card-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 50px 40px;
+    background-color: #222222;
+    color: #ffffff;
+    border-radius: 12px;
+    transition: 0.2s ease;
+}
+
+.team-card:hover .team-card-container {
+    border-radius: 10px;
+    inset: 3px;
+}
+
+.team-img {
+    width: 120px; /* Increased from 100px */
+    height: 120px; /* Increased from 100px */
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit: cover; /* Ensures the image fills the circle without distortion */
+}
+
+.carousel-nav {
+    margin-top: 20px;
+    text-align: center; /* Center the navigation buttons */
+}
+
+.nav-button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.nav-button:hover {
+    opacity: 0.7;
 }

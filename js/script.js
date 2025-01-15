@@ -152,16 +152,8 @@ $(document).ready(function () {
     }
 });
 var prevTitle = document.title;
-document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === 'visible') {
-        document.title = "Bentornato! \ud83d\ude0e";
-        setTimeout(function () {
-            document.title = prevTitle;
-        }, 1000);
-    } else {
-        document.title = "Hei, dove vai? \ud83d\ude2d";
-    }
-});
+
+
 var lastScrollTop = 0;
 document.addEventListener("scroll", function () {
     var st = window.pageYOffset || document.documentElement.scrollTop;
