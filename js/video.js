@@ -1,0 +1,1 @@
+$(document).ready(function(){document.createElement("source"),document.createElement("source");document.getElementById("videobg"),document.getElementById("videobgMobile");$("body").hasClass("mobile")&&$("#videobg").empty()});
