@@ -2025,30 +2025,24 @@ ul {
 }
 
 .partners-track img {
-    height: 50px;
-    /* Adjust logo size */
-    margin: 0 30px;
-    /* Space between logos */
-    filter: brightness(0) invert(1);
-    /* Make logos white */
-    opacity: 0.7;
-    /* Translucent effect */
+    height: 80px; /* Unified height for all logos */
+    width: auto; /* Maintain aspect ratio */
+    margin: 0 30px; /* Space between logos */
+    filter: brightness(0) invert(1); /* Make logos white */
+    opacity: 0.7; /* Translucent effect */
     transition: opacity 0.3s ease;
 }
 
 .partners-track img:hover {
-    opacity: 1;
-    /* Full opacity on hover */
+    opacity: 1; /* Full opacity on hover */
 }
 
 @keyframes scroll {
     0% {
         transform: translateX(0);
     }
-
     100% {
-        transform: translateX(-50%);
-        /* Move track to the left */
+        transform: translateX(-50%); /* Move track to the left */
     }
 }
 
@@ -2137,4 +2131,28 @@ ul {
 
 .nav-button:hover {
     opacity: 0.7;
+}
+
+
+.quirky-button {
+    background-color: #79232e; /* Same color as the CTA button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 40px; /* Increased from 20px to 40px */
+}
+
+.quirky-button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.quirky-button:active {
+    transform: scale(0.95);
 }
