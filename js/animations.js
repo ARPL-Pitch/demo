@@ -117,8 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Create particles
   const particles = [];
   const colors = ["rgba(255, 255, 255, 0.8)", "rgba(200, 200, 255, 0.8)", "rgba(255, 200, 200, 0.8)"]; // Elegant color variations
-  const PARTICLE_COUNT = 75; // Reduced from 150
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
+  for (let i = 0; i < 150; i++) {
       const size = Math.random() * 3 + 1; // Slightly larger particles
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
@@ -129,27 +128,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Animation loop
-  let animationFrameId;
   function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach(particle => {
           particle.update();
           particle.draw();
       });
-      animationFrameId = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
   }
 
-    // Start animation
-    animate();
-
-    // Pause animation when tab is not active
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-            cancelAnimationFrame(animationFrameId);
-        } else {
-            animate();
-        }
-    });
+  animate();
 
   // Resize canvas on window resize
   window.addEventListener("resize", () => {
