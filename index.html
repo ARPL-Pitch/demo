@@ -1,642 +1,823 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="css/notyf.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="imgs/ARPL-cropped.svg" sizes="192x192">
-    <link rel="shortcut icon" href="/static/images/favicon.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARPL — African Research Program for Leaders</title>
+  <meta name="description" content="The First Research Program Exclusive for Africans. Developing the next generation of African researchers." />
+  <meta property="og:title" content="ARPL" />
+  <meta property="og:description" content="First Research Program exclusive for Africans" />
+  <meta property="og:image" content="imgs/ARPL_Logo.jpg" />
+  <link rel="icon" type="image/svg+xml" href="imgs/ARPL-cropped.svg">
 
-    <meta name="format-detection" content="telephone=no">
-    <meta name="description" content="First Research Program exclusive for Africans" />
-    <meta property="og:type" content="image/jpeg" />
-    <meta property="og:title" content="ARPL" />
-    <meta property="og:description" content="First Research Program exclusive for Africans" />
-    <meta property="og:image" content="imgs/ARPL_Logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
-    <title>ARPL</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
-    <!-- ... other head elements ... -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/SplitText.min.js"></script>
-    <link rel="preload" href="https://prod.spline.design/nOriPmDXz4o9htYW/scene.splinecode" as="fetch">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* ═══════════════════════════════
+       DESIGN TOKENS
+    ═══════════════════════════════ */
+    :root {
+      --bg:          #0c0b09;
+      --surface:     #141210;
+      --surface-2:   #1c1a17;
+      --border:      rgba(255,255,255,0.07);
+
+      --text:        #f0ece4;
+      --muted:       #8a8278;
+      --faint:       #3d3a34;
+
+      /* Brand colors sampled from ARPL logo */
+      --crimson:     #822128;
+      --crimson-dk:  #5c1418;
+      --gold:        #cbac6d;
+      --gold-dk:     #a08942;
+
+      --grad:        linear-gradient(135deg, #3d0d10 0%, #822128 50%, #cbac6d 100%);
+      --grad-text:   linear-gradient(90deg, #cbac6d, #a8893a, #cbac6d);
+
+      --font-serif:  'Cormorant Garamond', Georgia, serif;
+      --font-sans:   'DM Sans', system-ui, sans-serif;
+
+      --nav-h:       72px;
+      --ease:        cubic-bezier(0.77, 0, 0.175, 1);
+      --spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ═══════════════════════════════
+       BASE RESET
+    ═══════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--crimson-dk) var(--bg);
+    }
+    ::-webkit-scrollbar        { width: 4px; }
+    ::-webkit-scrollbar-track  { background: var(--bg); }
+    ::-webkit-scrollbar-thumb  { background: var(--crimson-dk); border-radius: 2px; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a      { text-decoration: none; color: inherit; }
+    img    { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    ul     { list-style: none; }
+
+    /* ═══════════════════════════════
+       NOISE GRAIN
+    ═══════════════════════════════ */
+    .noise {
+      position: fixed; inset: 0; z-index: 1000;
+      pointer-events: none; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ═══════════════════════════════
+       PARTICLE CANVAS
+    ═══════════════════════════════ */
+    #particle-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none; opacity: 0.4;
+    }
+
+    /* ═══════════════════════════════
+       NAV
+    ═══════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 900;
+      display: flex; align-items: center;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+      transition: transform 0.3s var(--ease);
+    }
+    nav::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, rgba(12,11,9,0.93) 0%, rgba(12,11,9,0.65) 100%);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border-bottom: 1px solid var(--border);
+    }
+    nav.hidden { transform: translateY(-100%); }
+
+    .nav-inner {
+      width: 100%; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+
+    .nav-menu-btn {
+      display: flex; align-items: center; gap: 12px;
+      cursor: pointer; padding: 8px 0;
+    }
+    .nav-icon {
+      width: 22px; height: 14px; position: relative;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .nav-icon span,
+    .nav-icon::before,
+    .nav-icon::after {
+      content: ''; display: block; height: 1.5px;
+      background: var(--text);
+      transition: all 0.3s var(--ease); transform-origin: center;
+    }
+    .nav-icon span    { width: 100%; }
+    .nav-icon::before { width: 50%; align-self: flex-end; }
+    .nav-icon::after  { width: 50%; align-self: flex-start; }
+    .nav-menu-btn:hover .nav-icon::before,
+    .nav-menu-btn:hover .nav-icon::after { width: 100%; }
+    .nav-menu-btn.active .nav-icon span   { opacity: 0; transform: scaleX(0); }
+    .nav-menu-btn.active .nav-icon::before { width: 100%; transform: rotate(45deg) translate(4px, 4px); }
+    .nav-menu-btn.active .nav-icon::after  { width: 100%; transform: rotate(-45deg) translate(4px, -4px); }
+
+    .nav-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      font-weight: 400; color: var(--muted); transition: color 0.2s;
+    }
+    .nav-menu-btn:hover .nav-label,
+    .nav-menu-btn.active .nav-label { color: var(--text); }
+
+    .nav-logo img {
+      height: 36px; width: auto;
+      filter: brightness(1.1); transition: opacity 0.2s;
+    }
+    .nav-logo:hover img { opacity: 0.8; }
+
+    .nav-cta {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      font-weight: 500; color: var(--muted); transition: color 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-cta::after { content: '→'; display: inline-block; transition: transform 0.2s var(--spring); }
+    .nav-cta:hover { color: var(--gold); }
+    .nav-cta:hover::after { transform: translateX(4px); }
+
+    /* ═══════════════════════════════
+       MENU OVERLAY
+    ═══════════════════════════════ */
+    .menu-overlay {
+      position: fixed; inset: 0; z-index: 800;
+      background: var(--bg);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: calc(var(--nav-h) + 3rem) clamp(1.5rem, 8vw, 8rem) 4rem;
+      pointer-events: none; opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transition: opacity 0.5s ease, clip-path 0.7s var(--ease);
+      overflow-y: auto;
+    }
+    .menu-overlay.open { pointer-events: auto; opacity: 1; clip-path: inset(0 0 0% 0); }
+
+    .menu-nav-list { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 3rem; }
+    .menu-nav-list li a {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 8vw, 8rem);
+      font-weight: 300; color: var(--faint);
+      line-height: 1.1; letter-spacing: -0.02em;
+      transition: color 0.3s; display: inline-block;
+    }
+    .menu-nav-list li a:hover { color: var(--text); -webkit-text-stroke: 1px var(--gold); }
+
+    .menu-footer {
+      display: flex; flex-wrap: wrap; gap: 1.5rem 3rem;
+      border-top: 1px solid var(--border); padding-top: 2rem;
+    }
+    .menu-footer-item { font-size: 13px; color: var(--muted); }
+    .menu-footer-item a { color: var(--muted); transition: color 0.2s; position: relative; }
+    .menu-footer-item a::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.4s var(--ease);
+    }
+    .menu-footer-item a:hover { color: var(--text); }
+    .menu-footer-item a:hover::after { width: 100%; }
+
+    /* ═══════════════════════════════
+       HERO
+    ═══════════════════════════════ */
+    #hero {
+      position: relative; height: 100vh; min-height: 560px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-3d { position: absolute; inset: 0; z-index: 1; }
+    #canvas3d { width: 100% !important; height: 100% !important; object-fit: cover; }
+    .hero-vignette {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(12,11,9,0.7) 100%),
+        linear-gradient(to bottom, rgba(12,11,9,0.2) 0%, transparent 30%, transparent 60%, rgba(12,11,9,0.9) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 3; text-align: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      width: 100%; max-width: min(900px, 90vw);
+    }
+    .hero-eyebrow {
+      font-size: clamp(9px, 1.5vw, 11px); letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem; font-weight: 400; opacity: 0;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 6.5vw, 6.5rem);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 2.5rem; opacity: 0;
+    }
+    .hero-title em {
+      font-style: italic;
+      background: var(--grad-text); background-size: 200%;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50%       { background-position: 100% 50%; }
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap; opacity: 0;
+    }
+
+    .btn-primary {
+      padding: 0.875rem 2rem; background: var(--grad);
+      color: #fff; font-size: 13px; letter-spacing: 1.5px;
+      text-transform: uppercase; font-weight: 500; border-radius: 2px;
+      white-space: nowrap; position: relative; overflow: hidden;
+      transition: transform 0.25s var(--spring), box-shadow 0.25s ease;
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(130,33,40,0.4); }
+    .btn-primary:hover::after { opacity: 1; }
+
+    .btn-ghost {
+      padding: 0.875rem 2rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--muted); font-size: 13px; letter-spacing: 1.5px;
+      text-transform: uppercase; font-weight: 400; border-radius: 2px;
+      white-space: nowrap;
+      transition: border-color 0.25s, color 0.25s, background 0.25s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); background: rgba(203,172,109,0.05); }
+
+    .hero-scroll-cue {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%); z-index: 3;
+      display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0;
+    }
+    .hero-scroll-cue span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top;    opacity: 0; }
+      50%  { transform: scaleY(1); transform-origin: top;    opacity: 1; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ═══════════════════════════════
+       SHARED
+    ═══════════════════════════════ */
+    section { position: relative; z-index: 10; }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    .section-label {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; font-weight: 400;
+    }
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: var(--text);
+    }
+
+    /* ═══════════════════════════════
+       IMPACT
+    ═══════════════════════════════ */
+    #our-impact {
+      padding: clamp(4rem, 10vw, 10rem) clamp(1.25rem, 5vw, 4rem);
+      background: linear-gradient(180deg, transparent 0%, var(--surface) 50%, var(--bg) 100%);
+    }
+    .impact-header { text-align: center; margin-bottom: 3rem; }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 1.5px; max-width: 1100px; margin: 0 auto;
+      background: var(--border); border: 1px solid var(--border);
+    }
+    .impact-card {
+      background: var(--surface);
+      padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+      position: relative; overflow: hidden; transition: background 0.3s;
+    }
+    .impact-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--grad); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.5s var(--ease);
+    }
+    .impact-card:hover { background: var(--surface-2); }
+    .impact-card:hover::before { transform: scaleX(1); }
+    .impact-number {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      font-weight: 300; letter-spacing: -0.03em; margin-bottom: 0.5rem; line-height: 1;
+    }
+    .impact-number span {
+      background: var(--grad-text); background-size: 200%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .impact-card h3 {
+      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.875rem;
+    }
+    .impact-card p { font-size: 14px; line-height: 1.7; color: var(--muted); font-weight: 300; }
+    .impact-card p a { color: var(--gold); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .impact-card p a:hover { border-color: var(--gold); }
+
+    /* ═══════════════════════════════
+       TEAM
+    ═══════════════════════════════ */
+    #our-team { padding: clamp(4rem, 10vw, 10rem) 0; }
+    .team-header { text-align: center; margin-bottom: 3rem; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+
+    .team-carousel-wrap { position: relative; overflow: hidden; }
+    .team-carousel-wrap::before,
+    .team-carousel-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      width: clamp(2rem, 6vw, 6rem); z-index: 2; pointer-events: none;
+    }
+    .team-carousel-wrap::before { left: 0;  background: linear-gradient(to right, var(--bg), transparent); }
+    .team-carousel-wrap::after  { right: 0; background: linear-gradient(to left,  var(--bg), transparent); }
+
+    .team-track {
+      display: flex; gap: 1.25rem;
+      padding: 1.5rem clamp(2rem, 5vw, 4rem);
+      width: max-content; will-change: transform;
+    }
+    .team-card {
+      width: clamp(200px, 30vw, 260px); flex: 0 0 clamp(200px, 30vw, 260px);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden; position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .team-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--grad); transform: scaleX(0); transition: transform 0.4s var(--ease);
+    }
+    .team-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-4px); }
+    .team-card:hover::after { transform: scaleX(1); }
+
+    .team-img-wrap { width: 100%; height: 210px; overflow: hidden; }
+    .team-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      filter: grayscale(20%); transition: filter 0.4s, transform 0.4s;
+    }
+    .team-card:hover .team-img-wrap img { filter: grayscale(0%); transform: scale(1.03); }
+
+    .team-card-body { padding: 1.1rem 1.25rem 1.4rem; }
+    .team-card-body h2 { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .team-card-body .role { font-size: 12px; color: var(--gold); letter-spacing: 0.3px; margin-bottom: 4px; }
+    .team-card-body .country { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .country::before { content: ''; width: 4px; height: 4px; background: var(--faint); border-radius: 50%; flex-shrink: 0; }
+
+    .team-nav {
+      display: flex; justify-content: center; align-items: center;
+      gap: 1.5rem; margin-top: 2rem; padding: 0 clamp(1.25rem, 5vw, 4rem); flex-wrap: wrap;
+    }
+    .team-nav-btn {
+      width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%;
+      color: var(--muted); font-size: 16px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .team-nav-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(203,172,109,0.06); }
+    .team-dots { display: flex; gap: 8px; align-items: center; }
+    .team-dot {
+      width: 20px; height: 2px; background: var(--faint); border-radius: 1px;
+      cursor: pointer; border: none; transition: background 0.3s, width 0.3s;
+    }
+    .team-dot.active { background: var(--gold); width: 40px; }
+
+    /* ═══════════════════════════════
+       PARTNERS
+    ═══════════════════════════════ */
+    #our-partners {
+      padding: clamp(3rem, 7vw, 7rem) 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden; background: var(--surface);
+    }
+    .partners-label {
+      text-align: center; font-size: 10px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 2.5rem;
+    }
+    .partners-track-wrap { overflow: hidden; position: relative; }
+    .partners-track-wrap::before,
+    .partners-track-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      width: clamp(60px, 8vw, 120px); z-index: 2; pointer-events: none;
+    }
+    .partners-track-wrap::before { left: 0;  background: linear-gradient(to right, var(--surface), transparent); }
+    .partners-track-wrap::after  { right: 0; background: linear-gradient(to left,  var(--surface), transparent); }
+    .partners-track {
+      display: flex; align-items: center;
+      width: max-content; animation: scrollPartners 25s linear infinite;
+    }
+    .partners-track:hover { animation-play-state: paused; }
+    @keyframes scrollPartners {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .partners-track img {
+      height: clamp(32px, 5vw, 52px); width: auto; flex-shrink: 0;
+      filter: brightness(0) invert(1); opacity: 0.3;
+      margin: 0 clamp(1.25rem, 3.5vw, 3rem); transition: opacity 0.3s;
+    }
+    .partners-track img:hover { opacity: 0.7; }
+
+    /* ═══════════════════════════════
+       FOOTER
+    ═══════════════════════════════ */
+    footer {
+      position: relative; background: var(--bg);
+      padding: clamp(4rem, 10vw, 9rem) clamp(1.25rem, 5vw, 4rem) 3rem; overflow: hidden;
+    }
+    footer::before {
+      content: ''; position: absolute; bottom: -50%; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(130,33,40,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-cta-block { margin-bottom: 4rem; text-align: center; }
+    .footer-cta-label {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--faint); margin-bottom: 1.25rem;
+    }
+    .footer-email-link {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 5.5vw, 5rem);
+      font-weight: 300; color: var(--faint); letter-spacing: -0.02em;
+      position: relative; display: inline-block; transition: color 0.5s;
+      word-break: break-all;
+    }
+    .footer-email-link::after {
+      content: attr(data-text); position: absolute; inset: 0;
+      background: var(--grad-text); background-size: 200%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      opacity: 0; transition: opacity 0.5s; animation: shimmer 4s ease infinite;
+    }
+    .footer-email-link:hover::after { opacity: 1; }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 2rem;
+    }
+    .footer-bottom-left { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+    .footer-logo img { height: 26px; opacity: 0.5; filter: brightness(0) invert(1); }
+    .footer-tagline { font-size: 12px; color: var(--faint); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: var(--faint); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--muted); }
+    .footer-address { font-size: 12px; color: var(--faint); text-align: right; }
+
+    /* ═══════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav-cta { display: none; }
+      .footer-address { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      :root { --nav-h: 60px; }
+
+      nav { padding: 0 1.25rem; }
+      .nav-logo img { height: 28px; }
+      .nav-label { display: none; }
+
+      .menu-overlay { padding: calc(var(--nav-h) + 1.5rem) 1.5rem 3rem; }
+      .menu-nav-list li a { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+      .menu-footer { flex-direction: column; gap: 1rem; }
+
+      #hero { min-height: 100svh; }
+      .hero-title { font-size: clamp(1.75rem, 7.5vw, 2.5rem); }
+      .hero-eyebrow { font-size: 9px; letter-spacing: 3px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 280px; text-align: center; justify-content: center; display: flex; }
+      .hero-scroll-cue { display: none; }
+
+      #our-impact { padding: 3.5rem 1.25rem; }
+      .impact-grid { grid-template-columns: 1fr; }
+      .impact-card { padding: 1.75rem 1.5rem; }
+
+      #our-team { padding: 3.5rem 0; }
+      .team-card { width: calc(85vw - 1rem); flex: 0 0 calc(85vw - 1rem); }
+      .team-track { gap: 1rem; padding: 1rem 1.25rem; }
+      .team-img-wrap { height: 180px; }
+
+      footer { padding: 3.5rem 1.25rem 2.5rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .footer-address { text-align: left; }
+      .footer-links { gap: 1rem; }
+      .footer-bottom-left { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+    }
+
+    @media (max-width: 360px) {
+      .hero-title { font-size: 1.6rem; }
+      .btn-primary, .btn-ghost { font-size: 11px; padding: 0.75rem 1.25rem; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <canvas id="particle-canvas"></canvas>
+<div class="noise" aria-hidden="true"></div>
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-    <div class="cursor">
-        <div class="cursor-borderz"></div>
+<!-- MENU -->
+<div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Site navigation">
+  <ul class="menu-nav-list">
+    <li><a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener">Apply</a></li>
+    <li><a href="https://arpl.notion.site/ARPL-February-Handbook-2123a2790a474bcebc8984bc15c63d21" target="_blank" rel="noopener">Our Impact</a></li>
+    <li><a href="#our-team">About Us</a></li>
+  </ul>
+  <div class="menu-footer">
+    <div class="menu-footer-item">The First Exclusive Research<br>Program for Africans</div>
+    <div class="menu-footer-item"><a href="mailto:team@arpl.foundation">team@arpl.foundation</a></div>
+    <div class="menu-footer-item"><a href="tel:+27815270763">+27 081 527 0763</a></div>
+    <div class="menu-footer-item">
+      <a href="http://maps.apple.com/?q=1050+Printech+Ave+Honeydew" target="_blank" rel="noopener">
+        1050 Printech Ave,<br>Honeydew, Roodepoort
+      </a>
     </div>
+  </div>
+</div>
 
-    <!-- Hamburger menu -->
-    <div class="transition-layer layer-three gradient g1 animate"></div>
-    <div class="transition-layer layer-one main-menu">
-        <div class="main-menu-container">
-            <div class="container">
-                <div class="row" style="background-color: #121212 !important;">
-                    <div class="col-sm-12 col-md-6 col-left">
-                        <ul class="loop">
-                            <li>
-                                <h1 class="main-menu-text gradient g1 animate"><a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/edit">Apply</a></h1>
-                            </li>
-                            <li>
-                                <h1 class="main-menu-text gradient g6 animate"><a href="https://arpl.notion.site/ARPL-February-Handbook-2123a2790a474bcebc8984bc15c63d21">Our Impact</a></h1>
-                            </li>
-                            <li>
-                                <h1 class="main-menu-text gradient g4 animate"><a href="#our-team">About Us</a></h1>
-                            </li>
-                        </ul>
-                    </div>
+<!-- NAV -->
+<nav id="main-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <button class="nav-menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuOverlay">
+      <div class="nav-icon" aria-hidden="true"><span></span></div>
+      <span class="nav-label" id="menuLabel">Menu</span>
+    </button>
+    <a href="/" class="nav-logo" aria-label="ARPL home">
+      <img src="imgs/ARPL-cropped.svg" alt="ARPL" width="120" height="36">
+    </a>
+    <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="nav-cta">Apply Now</a>
+  </div>
+</nav>
 
-                    <div class="col-sm-12 col-md-6 d-flex justify-content-end col-right right-menu-col">
-                        <div class="main-menu-footer right-side is-fixed" style="opacity: 0;">
-                            <ul>
-                                <li>The First Exclusive Research Program for Africans.</li>
-                                <li><a class="main-menu-link a-hover" target="_blank"
-                                        href="http://maps.apple.com/?q=44.68887158655719,8.011963304591182">1050
-                                        Printech Ave, Honeydew, Roodepoort</a></li>
-                                <li><a class="main-menu-link a-hover" href="tel:+393803905614">+27 0815270763</a></li>
-                                <!-- <li><a class="main-menu-link a-hover" href="tel:+393313596329">+27 xxxxxxxxxx</a></li>
-                                <li>
-                                    <div style="width: 120px; margin-left: auto;" class="d-flex align-items-center">
-                                        <a href="https://www.instagram.com/wearecroma/" target="_blank"
-                                            class="main-menu-link">
-                                            <div class="instagram"></div>
-                                        </a>
-                                        <span class="dot"></span>
-                                        <a href="https://www.facebook.com/wearecroma" target="_blank"
-                                            class="main-menu-link">
-                                            <div class="facebook"></div>
-                                        </a>
-                                        <span class="dot"></span>
-                                        <a href="https://www.linkedin.com/company/wearecroma/" target="_blank"
-                                            class="main-menu-link">
-                                            <div class="linkedin"></div>
-                                        </a>
-                                        <span class="dot"></span>
-                                        <a href="https://www.behance.net/wearecroma" target="_blank"
-                                            class="main-menu-link">
-                                            <div class="behance"></div>
-                                        </a>
-                                    </div>
-                                </li> -->
-                                <li><a href="mailto:team@arpl.foundation" class="main-menu-link a-hover">CONTACT US<span></span></a></li>
-                                <!-- <li><a href="/en" class="main-menu-link a-hover">CHANGE LANGUAGE<span></span></a></li> -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- HERO -->
+<section id="hero" aria-label="Hero">
+  <div class="hero-3d" aria-hidden="true"><canvas id="canvas3d"></canvas></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" id="heroEyebrow">Est. 2024 · Pan-African</p>
+    <h1 class="hero-title" id="heroTitle">
+      Developing the Next<br>
+      Generation of <em>African</em><br>
+      Researchers.
+    </h1>
+    <div class="hero-actions" id="heroActions">
+      <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="btn-primary">Be a Scholar</a>
+      <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost">Access Handbook</a>
     </div>
-
-    <!-- Header nav bar -->
-    <nav>
-        <div class="nav-bg-blur"></div>
-        <div class="d-flex align-items-center" style="height: 100%;">
-            <div class="pl-5 px-5 container-fluid nav-container">
-                <div class="row d-flex align-items-center">
-                    <div class="col">
-                        <div class="row d-flex align-items-center nav-hamburger">
-                            <div class="col">
-                                <div class="nav-icon nav-icon-white d-flex align-items-center"><span></span></div>
-                            </div>
-                            <div class="col d-flex align-items-center">
-                                <h6>MENU</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4 text-center">
-                        <a href="/" class="nav-logo" style="margin-top: -14px;"> <!-- Adjust the value as needed -->
-                            <img src="imgs/ARPL-cropped.svg" width="45%">
-                        </a>
-                    </div>
-
-
-                    <div class="col">
-                        <!-- <a href="mailto:" class="nav-a ateam@arpl.foundation-hover"></a>team@arpl.foundation -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <section id="hero-section" class="hero-section">
-        <div class="canvas-cont">
-            <!-- 3D model of African continent -->
-            <canvas id="canvas3d"></canvas>
-        </div>
-
-        <div class="hero-content">
-            <h1 class="hero-title">Developing the Next Generation of African Researchers.</h1>
-            <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank"
-                rel="noopener noreferrer">
-                <button class="cta-button">Be a Scholar</button>
-            </a>
-
-            <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3?source=copy_link" target="_blank"
-                rel="noopener noreferrer">
-                <button class="cta-button">Access Handbook</button>
-            </a>
-            
-        </div>
-
-
-    </section>
-
-
-    <section id="our-impact" class="hero-section hero bg-blur-second py-5">
-        <div class="container text-center">
-            <h1 class="text-white mb-4">Our Numbers</h1>
-            <div class="row">
-                
-                <div class="col-md-x col-lg-x mb-4">
-                    <div class="card">
-                        <div class="card-container">
-                            <h2>Curriculum in 5 Languages</h2>
-                            <br>
-                            <p>Our 51,000-word graduate-level <a
-                                    href="https://spectrum-iguanodon-a2e.notion.site/Actual-Curriculum-1-9ac970cc4f0d452291fc333c8d6b59c9?pvs=4"
-                                    target="_blank" rel="noopener noreferrer" class="a-hover">curriculum</a> is
-                                beginner-friendly and has been translated ensuring accessibility for diverse
-                                communities across Africa.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-x col-lg-x mb-4">
-                    <div class="card">
-                        <div class="card-container">
-                            <h2>1,000 USD Raised</h2>
-                            <br>
-                            <p>Within few weeks of commence of work, $1K was raised by people who saw the potential in
-                                ARPL</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-x col-lg-x mb-4">
-                    <div class="card">
-                        <div class="card-container">
-                            <h2>9 Countries</h2>
-                            <br>
-                            <p>From 9 African countries, our team came together to bring ARPL to reality.</p>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Our Team Section -->
-    <section id="our-team" class="hero-section hero bg-blur-second py-5">
-        <div class="container text-center">
-            <h1 class="text-white mb-4">Our Team</h1>
-            <div class="team-carousel">
-                <div class="team-track">
-                    <!-- Team Member Cards -->
-                    <!-- CEO -->
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-GGhsPLv/0/LMtXZbxX9HGxkm87Lsc5gwwkrp7Fjn2Fqv67sczhg/X2/Mohamed%20Moussa-X2.jpg"
-                                alt="Mohamed Moussa" class="team-img">
-                            <h2>Mohamed Moussa</h2>
-                            <p>Chief Executive Officer</p>
-                            <p>Egypt</p>
-                        </div>
-                    </div>
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/2023-Year-1-Headshots/i-FH3fdW4/0/KKTbt4VcKBX29hCZX95XGZKLR6rJP8Rh92pCfCFVs/X2/Helena%20Appakuo%20Dogo-X2.jpg"
-                                alt="Helena Appakuo Dogo" class="team-img">
-                            <h2>Helena Dogo</h2>
-                            <p>Chief Media Officer</p>
-                            <p>Côte d'Ivoire</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-zZZKPwk/0/NcKmWp9hRHzr5Cbkwbqp5hRLNzB7vL3pq2dppw2m3/X2/Temitope%20Johnson-X2.jpg"
-                                alt="Temitope Johnson" class="team-img">
-                            <h2>Temitope Johnson</h2>
-                            <p>Co-Chief Logistics Officer</p>
-                            <p>Nigeria</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-PQPHfBq/0/NM7xjLsrZ55DjKwFhx5zZHqq8gGrKt9cx57z7bnrc/X2/Youssef%20Nassar-X2.jpg"
-                                alt="Youssef Nassar" class="team-img">
-                            <h2>Youssef Nassar</h2>
-                            <p>Chief Technology Officer</p>
-                            <p>Egypt</p>
-                        </div>
-                    </div>
-
-
-
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-bSdCmCn/0/NHT8Tfw5CN2PqndL7ftc5qwGKQ9gzbnDbKNc75SgH/X2/Fida%20Fufa-X2.jpg"
-                                alt="Fida Fufa" class="team-img">
-                            <h2>Fida Fufa</h2>
-                            <p>Curriculum Localization Officer</p>
-                            <p>Ethiopia</p>
-                        </div>
-                    </div>
-
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-rB6xV5z/0/KbwszqXbRm9rx6cvj8FBWTRWG2qPxQjx22LXnpSFt/X2/Youssef%20Boumhaout-X2.jpg"
-                                alt="Youssef Boumhout" class="team-img">
-                            <h2>Youssef Boumhout</h2>
-                            <p>Co-Chief Program Officer</p>
-                            <p>Morocco</p>
-                        </div>
-                    </div>
-
-
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-972rv2K/0/MX23q5Hz6xG68jNpbBGpHXrz3Zg8v2rX3qJQ42Vwg/X2/Jeremy%20Muchilwa-X2.jpg"
-                                alt="Jeremy Muchilwa" class="team-img">
-                            <h2>Jeremy Muchilwa</h2>
-                            <p>Co-Chief Program Officer</p>
-                            <p>Kenya</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg"
-                                alt="Yassir Ahjiba" class="team-img">
-                            <h2>Yassir Ahjiba</h2>
-                            <p>Co-Chief Logistics Officer</p>
-                            <p>Morocco</p>
-                        </div>
-                    </div>
-                    <!-- North African -->
-
-                    <!-- Sub-Saharan (Repeated) -->
-
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-GGhsPLv/0/LMtXZbxX9HGxkm87Lsc5gwwkrp7Fjn2Fqv67sczhg/X2/Mohamed%20Moussa-X2.jpg"
-                                alt="Mohamed Moussa" class="team-img">
-                            <h2>Mohamed Moussa</h2>
-                            <p>Chief Executive Officer</p>
-                            <p>Egypt</p>
-                        </div>
-                    </div>
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/2023-Year-1-Headshots/i-FH3fdW4/0/KKTbt4VcKBX29hCZX95XGZKLR6rJP8Rh92pCfCFVs/X2/Helena%20Appakuo%20Dogo-X2.jpg"
-                                alt="Helena Appakuo Dogo" class="team-img">
-                            <h2>Helena Dogo</h2>
-                            <p>Chief Media Officer</p>
-                            <p>Côte d'Ivoire</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-zZZKPwk/0/NcKmWp9hRHzr5Cbkwbqp5hRLNzB7vL3pq2dppw2m3/X2/Temitope%20Johnson-X2.jpg"
-                                alt="Temitope Johnson" class="team-img">
-                            <h2>Temitope Johnson</h2>
-                            <p>Co-Chief Logistics Officer</p>
-                            <p>Nigeria</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-PQPHfBq/0/NM7xjLsrZ55DjKwFhx5zZHqq8gGrKt9cx57z7bnrc/X2/Youssef%20Nassar-X2.jpg"
-                                alt="Youssef Nassar" class="team-img">
-                            <h2>Youssef Nassar</h2>
-                            <p>Chief Technology Officer</p>
-                            <p>Egypt</p>
-                        </div>
-                    </div>
-
-
-
-                    <!-- North African -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-bSdCmCn/0/NHT8Tfw5CN2PqndL7ftc5qwGKQ9gzbnDbKNc75SgH/X2/Fida%20Fufa-X2.jpg"
-                                alt="Fida Fufa" class="team-img">
-                            <h2>Fida Fufa</h2>
-                            <p>Curriculum Localization Officer</p>
-                            <p>Ethiopia</p>
-                        </div>
-                    </div>
-
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-rB6xV5z/0/KbwszqXbRm9rx6cvj8FBWTRWG2qPxQjx22LXnpSFt/X2/Youssef%20Boumhaout-X2.jpg"
-                                alt="Youssef Boumhout" class="team-img">
-                            <h2>Youssef Boumhout</h2>
-                            <p>Co-Chief Program Officer</p>
-                            <p>Morocco</p>
-                        </div>
-                    </div>
-
-
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-972rv2K/0/MX23q5Hz6xG68jNpbBGpHXrz3Zg8v2rX3qJQ42Vwg/X2/Jeremy%20Muchilwa-X2.jpg"
-                                alt="Jeremy Muchilwa" class="team-img">
-                            <h2>Jeremy Muchilwa</h2>
-                            <p>Co-Chief Program Officer</p>
-                            <p>Kenya</p>
-                        </div>
-                    </div>
-                    <!-- Sub-Saharan -->
-
-                    <div class="team-card">
-                        <div class="team-card-container">
-                            <img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg"
-                                alt="Yassir Ahjiba" class="team-img">
-                            <h2>Yassir Ahjiba</h2>
-                            <p>Co-Chief Logistics Officer</p>
-                            <p>Morocco</p>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-
-
-            <!-- Navigation Buttons -->
-            <div class="carousel-nav">
-                <button id="prevBtn" class="nav-button">&#10094;</button>
-                <button id="nextBtn" class="nav-button">&#10095;</button>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Our Partners Section -->
-    <!-- Our Partners Section -->
-    <section id="our-partners" class="section bg-blur-constant py-5">
-        <div class="container text-center">
-            <h1 class="text-white mb-4">Our Partners</h1>
-            <br>
-            <div class="partners-carousel">
-                <div class="partners-track">
-                    <!-- Add your partner logos here -->
-                    <img src="imgs/Ebhath.png" alt="Partner 1">
-                    <img src="imgs/BTG.png" alt="Partner 2">
-                    <img src="imgs/ysj.png" alt="Partner 3">
-                    <img src="imgs/vent.png" alt="Partner 4">
-                    <img src="imgs/adve.png" alt="Partner 5">
-                    <img src="imgs/ala.png" alt="Partner 5">
-                    <img src="imgs/Ebhath.png" alt="Partner 1">
-                    <img src="imgs/BTG.png" alt="Partner 2">
-                    <img src="imgs/ysj.png" alt="Partner 3">
-                    <img src="imgs/vent.png" alt="Partner 4">
-                    <img src="imgs/adve.png" alt="Partner 5">
-                    <img src="imgs/ala.png" alt="Partner 5">
-                    <img src="imgs/Ebhath.png" alt="Partner 1">
-                    <img src="imgs/BTG.png" alt="Partner 2">
-                    <img src="imgs/ysj.png" alt="Partner 3">
-                    <img src="imgs/vent.png" alt="Partner 4">
-                    <img src="imgs/adve.png" alt="Partner 5">
-                    <img src="imgs/ala.png" alt="Partner 5">
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-
-    <footer class="s-footer">
-        <div class="h-desktop" style="height: 100%;">
-            <div class="clip-footer box g3"></div>
-            <div class="container-fluid" style="height: 100%">
-                <div class="row section hero d-flex align-items-center position-relative p-0 " style="height: 100%">
-                    <div class="container d-flex align-items-center">
-                        <div class="row d-flex align-items-center" style="width: 200px; margin: 380px;">
-                            <a class="a-footer-mail gradient g6 animate"
-                                href="mailto:team@arpl.foundation"><span>team@arpl.foundation</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-
-
-
-
-
-    <script>
-
-
-
-
-        /*TEAM CARDS*/
-        document.addEventListener("DOMContentLoaded", function () {
-            const track = document.querySelector(".team-track");
-            const cards = document.querySelectorAll(".team-card");
-            const prevBtn = document.querySelector("#prevBtn");
-            const nextBtn = document.querySelector("#nextBtn");
-
-            let currentIndex = 0;
-            const cardWidth = cards[0].offsetWidth + 20; // Card width + gap
-            const totalCards = cards.length;
-
-            // Function to move the carousel
-            function moveCarousel(direction) {
-                if (direction === "next") {
-                    currentIndex = (currentIndex + 1) % totalCards; // Loop to the start if at the end
-                } else if (direction === "prev") {
-                    currentIndex = (currentIndex - 1 + totalCards) % totalCards; // Loop to the end if at the start
-                }
-
-                gsap.to(track, {
-                    x: -currentIndex * cardWidth,
-                    duration: 0.5,
-                    ease: "power2.out",
-                });
-            }
-
-            // Auto-play the carousel
-            let autoPlay = setInterval(() => moveCarousel("next"), 3000);
-
-            // Pause auto-play on hover
-            track.addEventListener("mouseenter", () => clearInterval(autoPlay));
-            track.addEventListener("mouseleave", () => {
-                autoPlay = setInterval(() => moveCarousel("next"), 3000);
-            });
-
-            // Manual navigation
-            prevBtn.addEventListener("click", () => moveCarousel("prev"));
-            nextBtn.addEventListener("click", () => moveCarousel("next"));
-        });
-
-
-
-
-        /*BACKGROUND*/
-        document.addEventListener("DOMContentLoaded", function () {
-            const canvas = document.getElementById("particle-canvas");
-            const ctx = canvas.getContext("2d");
-
-            // Set canvas size to full screen
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            // Particle class
-            class Particle {
-                constructor(x, y, size, speedX, speedY, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.size = size;
-                    this.speedX = speedX;
-                    this.speedY = speedY;
-                    this.color = color;
-                    this.baseSize = size;
-                }
-
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-
-                    // Reset particle if it goes off screen
-                    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
-                    }
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-
-                    // Add glow effect
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = this.color;
-
-                    // Fill particle with a gradient for elegance
-                    const gradient = ctx.createRadialGradient(
-                        this.x, this.y, 0, this.x, this.y, this.size
-                    );
-                    gradient.addColorStop(0, this.color);
-                    gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
-
-                    ctx.fillStyle = gradient;
-                    ctx.fill();
-                }
-            }
-
-            // Create particles
-            const particles = [];
-            const colors = ["rgba(255, 255, 255, 0.8)", "rgba(200, 200, 255, 0.8)", "rgba(255, 200, 200, 0.8)"]; // Elegant color variations
-            for (let i = 0; i < 150; i++) {
-                const size = Math.random() * 3 + 1; // Slightly larger particles
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const speedX = (Math.random() - 0.5) * 0.5;
-                const speedY = (Math.random() - 0.5) * 0.5;
-                const color = colors[Math.floor(Math.random() * colors.length)]; // Random elegant color
-                particles.push(new Particle(x, y, size, speedX, speedY, color));
-            }
-
-            // Animation loop
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(particle => {
-                    particle.update();
-                    particle.draw();
-                });
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-
-            // Resize canvas on window resize
-            window.addEventListener("resize", () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-
-            // Add mouse interaction for elegance
-            window.addEventListener("mousemove", (e) => {
-                particles.forEach(particle => {
-                    const dx = e.clientX - particle.x;
-                    const dy = e.clientY - particle.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 100) {
-                        gsap.to(particle, {
-                            x: particle.x - dx * 0.05,
-                            y: particle.y - dy * 0.05,
-                            size: particle.baseSize * 1.5, // Slightly enlarge particles near the cursor
-                            duration: 0.5,
-                            ease: "power2.out",
-                        });
-                    } else {
-                        gsap.to(particle, {
-                            size: particle.baseSize, // Reset size
-                            duration: 0.5,
-                            ease: "power2.out",
-                        });
-                    }
-                });
-            });
-        });
-
-
-    </script>
-
-    <script type="module" src="js/spline.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/script.js"></script>
+  </div>
+  <div class="hero-scroll-cue" id="scrollCue" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="our-impact" aria-labelledby="impactHeading">
+  <div class="impact-header reveal">
+    <p class="section-label">By the Numbers</p>
+    <h2 class="section-heading" id="impactHeading">What We've Built</h2>
+  </div>
+  <div class="impact-grid">
+    <article class="impact-card reveal">
+      <div class="impact-number"><span>51K</span></div>
+      <h3>Words of Curriculum</h3>
+      <p>Our graduate-level <a href="https://spectrum-iguanodon-a2e.notion.site/Actual-Curriculum-1-9ac970cc4f0d452291fc333c8d6b59c9?pvs=4" target="_blank" rel="noopener">curriculum</a> is beginner-friendly and has been translated into 5 languages to ensure accessibility across Africa.</p>
+    </article>
+    <article class="impact-card reveal">
+      <div class="impact-number"><span>$1,000</span></div>
+      <h3>USD Raised</h3>
+      <p>Within weeks of commencing work, $1K was raised by people who saw the potential in ARPL — proof of concept in action.</p>
+    </article>
+    <article class="impact-card reveal">
+      <div class="impact-number"><span>9</span></div>
+      <h3>African Countries</h3>
+      <p>From 9 African countries, our team came together to bring ARPL to reality — a truly pan-African collaboration.</p>
+    </article>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="our-team" aria-labelledby="teamHeading">
+  <div class="team-header reveal">
+    <p class="section-label">The People</p>
+    <h2 class="section-heading" id="teamHeading">Our Team</h2>
+  </div>
+  <div class="team-carousel-wrap">
+    <div class="team-track" id="teamTrack">
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-GGhsPLv/0/LMtXZbxX9HGxkm87Lsc5gwwkrp7Fjn2Fqv67sczhg/X2/Mohamed%20Moussa-X2.jpg" alt="Mohamed Moussa" loading="lazy"></div><div class="team-card-body"><h2>Mohamed Moussa</h2><p class="role">Chief Executive Officer</p><p class="country">Egypt</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/2023-Year-1-Headshots/i-FH3fdW4/0/KKTbt4VcKBX29hCZX95XGZKLR6rJP8Rh92pCfCFVs/X2/Helena%20Appakuo%20Dogo-X2.jpg" alt="Helena Dogo" loading="lazy"></div><div class="team-card-body"><h2>Helena Dogo</h2><p class="role">Chief Media Officer</p><p class="country">Côte d'Ivoire</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-zZZKPwk/0/NcKmWp9hRHzr5Cbkwbqp5hRLNzB7vL3pq2dppw2m3/X2/Temitope%20Johnson-X2.jpg" alt="Temitope Johnson" loading="lazy"></div><div class="team-card-body"><h2>Temitope Johnson</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Nigeria</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-PQPHfBq/0/NM7xjLsrZ55DjKwFhx5zZHqq8gGrKt9cx57z7bnrc/X2/Youssef%20Nassar-X2.jpg" alt="Youssef Nassar" loading="lazy"></div><div class="team-card-body"><h2>Youssef Nassar</h2><p class="role">Chief Technology Officer</p><p class="country">Egypt</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-bSdCmCn/0/NHT8Tfw5CN2PqndL7ftc5qwGKQ9gzbnDbKNc75SgH/X2/Fida%20Fufa-X2.jpg" alt="Fida Fufa" loading="lazy"></div><div class="team-card-body"><h2>Fida Fufa</h2><p class="role">Curriculum Localization Officer</p><p class="country">Ethiopia</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-rB6xV5z/0/KbwszqXbRm9rx6cvj8FBWTRWG2qPxQjx22LXnpSFt/X2/Youssef%20Boumhaout-X2.jpg" alt="Youssef Boumhout" loading="lazy"></div><div class="team-card-body"><h2>Youssef Boumhout</h2><p class="role">Co-Chief Program Officer</p><p class="country">Morocco</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-972rv2K/0/MX23q5Hz6xG68jNpbBGpHXrz3Zg8v2rX3qJQ42Vwg/X2/Jeremy%20Muchilwa-X2.jpg" alt="Jeremy Muchilwa" loading="lazy"></div><div class="team-card-body"><h2>Jeremy Muchilwa</h2><p class="role">Co-Chief Program Officer</p><p class="country">Kenya</p></div></div>
+      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg" alt="Yassir Ahjiba" loading="lazy"></div><div class="team-card-body"><h2>Yassir Ahjiba</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Morocco</p></div></div>
+    </div>
+  </div>
+  <div class="team-nav" aria-label="Team carousel navigation">
+    <button class="team-nav-btn" id="teamPrev" aria-label="Previous">&#8592;</button>
+    <div class="team-dots" id="teamDots" role="tablist" aria-label="Team pages"></div>
+    <button class="team-nav-btn" id="teamNext" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="our-partners" aria-label="Our Partners">
+  <p class="partners-label">Trusted Partners</p>
+  <div class="partners-track-wrap">
+    <div class="partners-track" aria-hidden="true">
+      <img src="imgs/Ebhath.png" alt="Ebhath"><img src="imgs/BTG.png" alt="BTG">
+      <img src="imgs/ysj.png" alt="YSJ"><img src="imgs/vent.png" alt="Vent">
+      <img src="imgs/adve.png" alt="Adve"><img src="imgs/ala.png" alt="ALA">
+      <img src="imgs/Ebhath.png" alt=""><img src="imgs/BTG.png" alt="">
+      <img src="imgs/ysj.png" alt=""><img src="imgs/vent.png" alt="">
+      <img src="imgs/adve.png" alt=""><img src="imgs/ala.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta-block reveal">
+      <p class="footer-cta-label">Get in touch</p>
+      <a href="mailto:team@arpl.foundation" class="footer-email-link" data-text="team@arpl.foundation">
+        team@arpl.foundation
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <a href="/" class="footer-logo" aria-label="ARPL"><img src="imgs/ARPL-cropped.svg" alt="ARPL"></a>
+        <span class="footer-tagline">First Research Program for Africans</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener">Apply</a></li>
+        <li><a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener">Handbook</a></li>
+        <li><a href="mailto:team@arpl.foundation">Contact</a></li>
+      </ul>
+      <address class="footer-address" style="font-style:normal">
+        1050 Printech Ave, Honeydew<br>Roodepoort, South Africa
+      </address>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="js/spline.js"></script>
+
+<script>
+/* PARTICLES */
+(function(){
+  const c=document.getElementById('particle-canvas');
+  if(!c)return;
+  const x=c.getContext('2d');
+  let W=c.width=window.innerWidth,H=c.height=window.innerHeight;
+  const N=W<600?40:100;
+  const COLS=['rgba(203,172,109,0.55)','rgba(130,33,40,0.45)','rgba(255,255,255,0.35)'];
+  class P{
+    reset(r){this.x=Math.random()*W;this.y=r?Math.random()*H:H+5;this.rad=Math.random()*1.5+0.4;this.vx=(Math.random()-.5)*.3;this.vy=-(Math.random()*.35+.08);this.a=Math.random()*.5+.2;this.col=COLS[0|Math.random()*3];}
+    constructor(){this.reset(true);}
+    tick(){this.x+=this.vx;this.y+=this.vy;if(this.y<-5||this.x<-5||this.x>W+5)this.reset(false);}
+    draw(){x.globalAlpha=this.a;x.beginPath();x.arc(this.x,this.y,this.rad,0,6.28);x.fillStyle=this.col;x.fill();}
+  }
+  const ps=Array.from({length:N},()=>new P());
+  (function loop(){x.clearRect(0,0,W,H);x.globalAlpha=1;ps.forEach(p=>{p.tick();p.draw();});requestAnimationFrame(loop);})();
+  let t;window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;},150);});
+})();
+
+/* NAV SCROLL HIDE */
+(function(){
+  const nav=document.getElementById('main-nav');
+  let last=0,tick=false;
+  window.addEventListener('scroll',()=>{
+    if(tick)return;tick=true;
+    requestAnimationFrame(()=>{
+      const y=window.scrollY;
+      nav.classList.toggle('hidden',y>80&&y>last);
+      if(y<=80)nav.classList.remove('hidden');
+      last=y;tick=false;
+    });
+  });
+})();
+
+/* MENU */
+(function(){
+  const btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOverlay'),lbl=document.getElementById('menuLabel');
+  function open(){ov.classList.add('open');btn.classList.add('active');btn.setAttribute('aria-expanded','true');lbl.textContent='Close';document.body.style.overflow='hidden';}
+  function close(){ov.classList.remove('open');btn.classList.remove('active');btn.setAttribute('aria-expanded','false');lbl.textContent='Menu';document.body.style.overflow='';}
+  btn.addEventListener('click',()=>ov.classList.contains('open')?close():open());
+  ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+})();
+
+/* HERO ANIMATIONS */
+window.addEventListener('load',()=>{
+  if(typeof gsap==='undefined')return;
+  gsap.timeline({delay:.3})
+    .to('#heroEyebrow',{opacity:1,y:0,duration:.8,ease:'power3.out'})
+    .to('#heroTitle',  {opacity:1,y:0,duration:1, ease:'power3.out'},'-=.5')
+    .to('#heroActions',{opacity:1,y:0,duration:.8,ease:'power3.out'},'-=.6')
+    .to('#scrollCue',  {opacity:1,    duration:.8,ease:'power2.out'},'-=.2');
+  if(typeof ScrollTrigger!=='undefined'){
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%'},opacity:1,y:0,duration:.9,ease:'power3.out'}));
+    gsap.utils.toArray('.impact-card').forEach((el,i)=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:.7,ease:'power3.out',delay:i*.1}));
+  }
+});
+
+/* TEAM CAROUSEL — recalculates on resize */
+(function(){
+  const track=document.getElementById('teamTrack'),prev=document.getElementById('teamPrev'),next=document.getElementById('teamNext'),dots=document.getElementById('teamDots');
+  if(!track||!prev)return;
+  let cur=0,ap,st={};
+
+  function measure(){
+    const card=track.querySelector('.team-card');
+    const gap=parseFloat(getComputedStyle(track).gap)||20;
+    const cw=card?card.offsetWidth+gap:284;
+    const vis=Math.max(1,Math.floor(track.parentElement.offsetWidth/cw));
+    const tot=track.querySelectorAll('.team-card').length;
+    return{cw,vis,tot,max:Math.max(0,tot-vis)};
+  }
+
+  function buildDots(pages){
+    dots.innerHTML='';
+    for(let i=0;i<pages;i++){
+      const d=document.createElement('button');
+      d.className='team-dot'+(i===0?' active':'');
+      d.setAttribute('role','tab');d.setAttribute('aria-label','Page '+(i+1));
+      d.addEventListener('click',()=>go(i*st.vis));
+      dots.appendChild(d);
+    }
+  }
+
+  function updDots(){
+    const p=Math.round(cur/st.vis);
+    dots.querySelectorAll('.team-dot').forEach((d,i)=>d.classList.toggle('active',i===p));
+  }
+
+  function go(idx){
+    cur=Math.max(0,Math.min(idx,st.max));
+    const x=-(cur*st.cw);
+    if(typeof gsap!=='undefined')gsap.to(track,{x,duration:.55,ease:'power3.out'});
+    else track.style.transform='translateX('+x+'px)';
+    updDots();
+  }
+
+  function startAp(){clearInterval(ap);ap=setInterval(()=>go(cur>=st.max?0:cur+1),4000);}
+
+  function init(){
+    st=measure();cur=Math.min(cur,st.max);
+    buildDots(Math.ceil(st.tot/st.vis));go(cur);startAp();
+  }
+
+  init();
+  track.addEventListener('mouseenter',()=>clearInterval(ap));
+  track.addEventListener('mouseleave',startAp);
+  prev.addEventListener('click',()=>go(cur>0?cur-1:st.max));
+  next.addEventListener('click',()=>go(cur>=st.max?0:cur+1));
+
+  let tx=0;
+  track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?cur+1:cur-1);});
+
+  let rt;
+  window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
+})();
+</script>
 </body>
-
 </html>
