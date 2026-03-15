@@ -931,46 +931,71 @@
     /* ═══════════════════════════════════
        UNIVERSITIES  (#universities)
     ═══════════════════════════════════ */
-    #universities {
-      padding: clamp(2.5rem, 5vw, 4rem) 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-    }
-    .uni-inner {
-      max-width: var(--max-w); margin: 0 auto;
-      padding: 0 clamp(1.25rem, 5vw, 4rem);
-    }
-    .uni-label {
-      text-align: center; font-size: 10px; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--faint); margin-bottom: 2rem;
-    }
-    .uni-track-wrap { position: relative; overflow: hidden; }
-    .uni-track-fade {
-      position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; pointer-events: none;
-    }
-    .uni-track-fade--left  { left: 0;  background: linear-gradient(to right, var(--surface), transparent); }
-    .uni-track-fade--right { right: 0; background: linear-gradient(to left,  var(--surface), transparent); }
-    .uni-track {
-      display: flex; align-items: center; flex-wrap: wrap;
-      justify-content: center; gap: 2rem 3.5rem; padding: 0.5rem 0;
-    }
-    .uni-item {
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0.6; transition: opacity 0.35s ease;
-    }
-    .uni-item:hover { opacity: 1; }
-    .uni-item img {
-      height: 34px; width: auto; max-width: 88px;
-      object-fit: contain; display: block;
-    }
-    .uni-item--lg img { height: 44px; max-width: 108px; }
-    .uni-item--lg { opacity: 0.75; }
-    
-    @media (max-width: 600px) {
-      .uni-track { gap: 1.5rem 2rem; }
-      .uni-item img { height: 26px; max-width: 70px; }
-      .uni-item--lg img { height: 32px; max-width: 80px; }
-    }
+#universities {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.uni-inner {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 4rem);
+}
+.uni-label {
+  text-align: center; font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--faint); margin-bottom: 2rem;
+}
+.uni-track {
+  display: flex; align-items: center; flex-wrap: wrap;
+  justify-content: center; gap: 2.5rem 3rem;
+}
+.uni-item {
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.6; transition: opacity 0.35s ease;
+  /* fixed visual box — logos scale to fit within this */
+  width: 110px; height: 52px;
+}
+.uni-item:hover { opacity: 1; }
+.uni-item img {
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain; display: block;
+}
+
+/* Per-logo overrides to compensate for extreme aspect ratios */
+
+/* Tall crests — cap height so they don't tower */
+.uni-item[title="University of Aberdeen"] img,
+.uni-item[title="University of Hong Kong"] img,
+.uni-item[title="University of Rochester"] img,
+.uni-item[title="Macalester College"] img       { max-height: 72px; }
+
+/* Square crests — a bit more height room */
+.uni-item[title="University of British Columbia"] img,
+.uni-item[title="Vanderbilt University"] img    { max-height: 60px; }
+
+/* Very wide wordmarks — need more width */
+.uni-item[title="Reed College"] img,
+.uni-item[title="Durham University"] img,
+.uni-item[title="Constructor University"] img   { width: 140px; height: auto; max-height: 44px; }
+
+/* Wide but shorter wordmarks */
+.uni-item[title="Tufts University"] img,
+.uni-item[title="Northeastern University"] img,
+.uni-item[title="Gettysburg College"] img       { width: 130px; height: auto; max-height: 48px; }
+
+/* Tall wordmarks — restrict width */
+.uni-item[title="University of San Francisco"] img,
+.uni-item[title="Minerva University"] img       { max-width: 80px; max-height: 70px; }
+
+/* Berkeley — athletic logo is compact, boost slightly */
+.uni-item[title="University of California, Berkeley"] img { max-height: 58px; }
+
+@media (max-width: 600px) {
+  .uni-item { width: 80px; height: 40px; }
+  .uni-item[title="Reed College"] img,
+  .uni-item[title="Durham University"] img,
+  .uni-item[title="Constructor University"] img { width: 100px; max-height: 34px; }
+}
   </style>
 </head>
 <body>
@@ -1422,75 +1447,69 @@
 </section>
 
 <!-- ── UNIVERSITIES ──────────────────────────────── -->
+
 <section id="universities" aria-label="Where our team studies">
   <div class="uni-inner">
     <p class="uni-label">Where our team went</p>
-    <div class="uni-track-wrap">
-      <div class="uni-track-fade uni-track-fade--left"></div>
-      <div class="uni-track-fade uni-track-fade--right"></div>
-      <div class="uni-track" id="uniTrack">
-        <!-- Tier 1: most prestigious — larger display -->
-        <div class="uni-item uni-item--lg" title="Yale University">
-          <img src="imgs/yale.svg" alt="Yale" loading="lazy">
-        </div>
-        
-        <div class="uni-item uni-item--lg" title="University of California, Berkeley">
-          <img src="imgs/caly.png" alt="UC Berkeley" loading="lazy">
-        </div>
-        
-        <div class="uni-item uni-item--lg" title="University of Michigan">
-          <img src="imgs/mich.svg" loading="lazy">
-        </div>
-        
-        <div class="uni-item uni-item--lg" title="Vanderbilt University">
-          <img src="imgs/vandy.png" alt="Vanderbilt" loading="lazy">
-        </div>
-        
-        <div class="uni-item uni-item--lg" title="Tufts University">
-          <img src="imgs/tufts.png" alt="Tufts" loading="lazy">
-        </div>
-        <!-- Tier 2: standard -->
-        <div class="uni-item" title="University of British Columbia">
-          <img src="imgs/ubc.png" alt="UBC" loading="lazy">
-        </div>
-        
-        <div class="uni-item" title="Durham University">
-          <img src="imgs/durham.png" alt="Durham" loading="lazy">
-        </div>
-        <div class="uni-item" title="University of Rochester">
-          <img src="imgs/roch.png" alt="Rochester" loading="lazy">
-        </div>
-        <div class="uni-item" title="University of Hong Kong">
-          <img src="imgs/hku.png" alt="HKU" loading="lazy">
-        </div>
-        <div class="uni-item" title="Northeastern University">
-          <img src="imgs/northeast.png" alt="Northeastern" loading="lazy">
-        </div>
-        <div class="uni-item" title="Gettysburg College">
-          <img src="imgs/getty.png" alt="Gettysburg" loading="lazy">
-        </div>
-        <div class="uni-item" title="Reed College">
-          <img src="imgs/reed.png" alt="Reed College" loading="lazy">
-        </div>
-        <div class="uni-item" title="University of San Francisco">
-          <img src="imgs/usf.png" alt="USF" loading="lazy">
-        </div>
-        <div class="uni-item" title="Macalester College">
-          <img src="imgs/mac.png" alt="Macalester" loading="lazy">
-        </div>
-        <div class="uni-item" title="University of Aberdeen">
-          <img src="imgs/aberdeen.png" alt="Aberdeen" loading="lazy">
-        </div>
-        <div class="uni-item" title="Minerva University">
-          <img src="imgs/min.png" alt="Minerva" loading="lazy">
-        </div>
-        <div class="uni-item" title="Constructor University">
-          <img src="imgs/const.png" alt="Constructor University" loading="lazy">
-        </div>
+    <div class="uni-track">
+      <div class="uni-item" title="Yale University">
+        <img src="imgs/yale.svg" alt="Yale" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of California, Berkeley">
+        <img src="imgs/caly.png" alt="UC Berkeley" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of Michigan">
+        <img src="imgs/mich.svg" alt="Michigan" loading="lazy">
+      </div>
+      <div class="uni-item" title="Vanderbilt University">
+        <img src="imgs/vandy.png" alt="Vanderbilt" loading="lazy">
+      </div>
+      <div class="uni-item" title="Tufts University">
+        <img src="imgs/tufts.png" alt="Tufts" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of British Columbia">
+        <img src="imgs/ubc.png" alt="UBC" loading="lazy">
+      </div>
+      <div class="uni-item" title="Durham University">
+        <img src="imgs/durham.png" alt="Durham" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of Rochester">
+        <img src="imgs/roch.png" alt="Rochester" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of Hong Kong">
+        <img src="imgs/hku.png" alt="HKU" loading="lazy">
+      </div>
+      <div class="uni-item" title="Northeastern University">
+        <img src="imgs/northeast.png" alt="Northeastern" loading="lazy">
+      </div>
+      <div class="uni-item" title="Gettysburg College">
+        <img src="imgs/getty.png" alt="Gettysburg" loading="lazy">
+      </div>
+      <div class="uni-item" title="Reed College">
+        <img src="imgs/reed.png" alt="Reed College" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of San Francisco">
+        <img src="imgs/usf.png" alt="USF" loading="lazy">
+      </div>
+      <div class="uni-item" title="Macalester College">
+        <img src="imgs/mac.png" alt="Macalester" loading="lazy">
+      </div>
+      <div class="uni-item" title="University of Aberdeen">
+        <img src="imgs/aberdeen.png" alt="Aberdeen" loading="lazy">
+      </div>
+      <div class="uni-item" title="Minerva University">
+        <img src="imgs/min.png" alt="Minerva" loading="lazy">
+      </div>
+      <div class="uni-item" title="Constructor University">
+        <img src="imgs/const.png" alt="Constructor University" loading="lazy">
       </div>
     </div>
   </div>
 </section>
+
+
+
+  
 <!-- ── PARTNERS ───────────────────────────────────── -->
 <!--section id="our-partners" aria-label="Our Partners">
   <p class="partners-label">Partners &amp; Supporters</p>
