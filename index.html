@@ -781,16 +781,27 @@
     .footer-email-link {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 5.5vw, 5rem);
-      font-weight: 300; color: var(--faint); letter-spacing: -0.02em;
-      position: relative; display: inline-block; transition: color 0.5s; word-break: break-all;
+      font-weight: 300; letter-spacing: -0.02em;
+      position: relative; display: inline-block; word-break: break-all;
+      color: transparent;
+    }
+    .footer-email-link::before {
+      content: 'info@arpl.africa';
+      position: absolute; inset: 0;
+      color: var(--faint);
+      transition: opacity 0.45s ease;
     }
     .footer-email-link::after {
-      content: attr(data-text); position: absolute; inset: 0;
+      content: 'info@arpl.africa';
+      position: absolute; inset: 0;
       background: var(--grad-text); background-size: 200%;
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      opacity: 0; transition: opacity 0.5s; animation: shimmer 5s ease infinite;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0; transition: opacity 0.45s ease;
+      animation: shimmer 5s ease infinite;
     }
-    .footer-email-link:hover::after { opacity: 1; }
+    .footer-email-link:hover::before { opacity: 0; }
+    .footer-email-link:hover::after  { opacity: 1; }
     .footer-bottom {
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1.5rem;
@@ -1433,8 +1444,9 @@
           <img src="https://commons.wikimedia.org/w/index.php?curid=88781150" alt="University of Michigan" loading="lazy">
         </div>
         <div class="uni-item uni-item--lg" title="Vanderbilt University">
-          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/29/Vanderbilt_University_seal.svg/960px-Vanderbilt_University_seal.svg" alt="Vanderbilt" loading="lazy">
+          <img src="//en.wikipedia.org/wiki/File:Vanderbilt_University_seal.svg.png" alt="Vanderbilt" loading="lazy">
         </div>
+        
         <div class="uni-item uni-item--lg" title="Tufts University">
           <img src="" alt="Tufts" loading="lazy">
         </div>
@@ -1572,8 +1584,8 @@
   <div class="footer-inner">
     <div class="footer-cta-block reveal">
       <p class="footer-cta-label">Get in touch</p>
-      <a href="/cdn-cgi/l/email-protection#b5dcdbd3daf5d4c7c5d99bd4d3c7dcd6d4" class="footer-email-link" data-text="info@arpl.africa">
-        <span class="__cf_email__" data-cfemail="60090e060f200112100c4e010612090301"></span>
+      <a href="mailto:info@arpl.africa" class="footer-email-link">
+        &ZeroWidthSpace;
       </a>
     </div>
     <div class="footer-bottom">
