@@ -883,6 +883,87 @@
       flex-shrink: 0;
     }
     .menu-social-link:hover { color: var(--text); }
+
+    /* ═══════════════════════════════════
+       COHORT PHOTO  (#cohort-photo)
+    ═══════════════════════════════════ */
+    #cohort-photo {
+      padding: clamp(4rem, 9vw, 9rem) 0;
+      background: var(--bg);
+    }
+    .cohort-photo-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+    }
+    .cohort-photo-header { text-align: center; margin-bottom: 2.5rem; }
+    .cohort-photo-wrap {
+      position: relative; width: 100%;
+      aspect-ratio: 16 / 9; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    @supports not (aspect-ratio: 16 / 9) {
+      .cohort-photo-wrap { padding-bottom: 56.25%; height: 0; }
+      .cohort-photo-wrap img { position: absolute; inset: 0; }
+    }
+    .cohort-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block; filter: grayscale(15%) brightness(0.92);
+      transition: filter 0.5s ease, transform 0.6s ease;
+    }
+    .cohort-photo-wrap:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.012); }
+    .cohort-photo-wrap::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 30%;
+      background: linear-gradient(to top, rgba(10,9,8,0.55), transparent);
+      pointer-events: none;
+    }
+    .cohort-photo-caption {
+      text-align: center; font-size: 12px; color: var(--faint);
+      letter-spacing: 0.5px; margin-top: 1.25rem;
+    }
+
+    /* ═══════════════════════════════════
+       UNIVERSITIES  (#universities)
+    ═══════════════════════════════════ */
+    #universities {
+      padding: clamp(2.5rem, 5vw, 4rem) 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .uni-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+    }
+    .uni-label {
+      text-align: center; font-size: 10px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 2rem;
+    }
+    .uni-track-wrap { position: relative; overflow: hidden; }
+    .uni-track-fade {
+      position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; pointer-events: none;
+    }
+    .uni-track-fade--left  { left: 0;  background: linear-gradient(to right, var(--surface), transparent); }
+    .uni-track-fade--right { right: 0; background: linear-gradient(to left,  var(--surface), transparent); }
+    .uni-track {
+      display: flex; align-items: center; flex-wrap: wrap;
+      justify-content: center; gap: 2rem 3.5rem; padding: 0.5rem 0;
+    }
+    .uni-item {
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.25; transition: opacity 0.35s ease;
+      filter: brightness(0) invert(1);
+    }
+    .uni-item:hover { opacity: 0.7; }
+    .uni-item img {
+      height: 34px; width: auto; max-width: 88px;
+      object-fit: contain; display: block;
+    }
+    .uni-item--lg img { height: 44px; max-width: 108px; }
+    .uni-item--lg { opacity: 0.35; }
+    @media (max-width: 600px) {
+      .uni-track { gap: 1.5rem 2rem; }
+      .uni-item img { height: 26px; max-width: 70px; }
+      .uni-item--lg img { height: 32px; max-width: 80px; }
+    }
   </style>
 </head>
 <body>
@@ -1020,6 +1101,33 @@
       </div>
 
     </div>
+  </div>
+</section>
+<!-- ── GROUP PHOTO ───────────────────────────────── -->
+<section id="cohort-photo" aria-labelledby="cohortPhotoHeading">
+  <div class="cohort-photo-inner">
+    <div class="cohort-photo-header reveal">
+      <p class="section-label">Season 2 · 2025–2026</p>
+      <h2 class="section-heading" id="cohortPhotoHeading">The cohort</h2>
+    </div>
+    <div class="cohort-photo-wrap reveal">
+      <!--
+        Replace the src below with the path to your group photo.
+        If the photo is in the imgs/ folder, use:  src="imgs/your-photo-filename.jpg"
+        If it's hosted online, paste the full URL.
+
+        object-position is set to "center top" so faces are prioritised
+        when the image is cropped on narrow screens. Adjust if needed:
+          object-position: center center   (centres the image)
+          object-position: center 20%      (shows upper section)
+      -->
+      <img
+        src="imgs/cohort-photo.jpg"
+        alt="ARPL Season 2 scholars and leadership team"
+        loading="lazy"
+      >
+    </div>
+    <p class="cohort-photo-caption">ARPL scholars and leadership team, African Leadership Academy, 2025</p>
   </div>
 </section>
 
@@ -1198,50 +1306,118 @@
   </div>
 </section>
 
-<!-- ── GROUP PHOTO ───────────────────────────────── -->
-<section id="cohort-photo" aria-labelledby="cohortPhotoHeading">
-  <div class="cohort-photo-inner">
-    <div class="cohort-photo-header reveal">
-      <p class="section-label">Season 2 · 2025–2026</p>
-      <h2 class="section-heading" id="cohortPhotoHeading">The cohort</h2>
-    </div>
-    <div class="cohort-photo-wrap reveal">
-      <!--
-        Replace the src below with the path to your group photo.
-        If the photo is in the imgs/ folder, use:  src="imgs/your-photo-filename.jpg"
-        If it's hosted online, paste the full URL.
-
-        object-position is set to "center top" so faces are prioritised
-        when the image is cropped on narrow screens. Adjust if needed:
-          object-position: center center   (centres the image)
-          object-position: center 20%      (shows upper section)
-      -->
-      <img
-        src="imgs/cohort-photo.jpg"
-        alt="ARPL Season 2 scholars and leadership team"
-        loading="lazy"
-      >
-    </div>
-    <p class="cohort-photo-caption">ARPL scholars and leadership team, African Leadership Academy, 2025</p>
-  </div>
-</section>
-
 <!-- ── TEAM ──────────────────────────────────────── -->
 <section id="our-team" aria-labelledby="teamHeading">
   <div class="team-header reveal">
     <p class="section-label">The People</p>
-    <h2 class="section-heading" id="teamHeading">Our Team</h2>
+    <h2 class="section-heading" id="teamHeading">The ARPL Team</h2>
   </div>
   <div class="team-carousel-wrap">
     <div class="team-track" id="teamTrack">
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-GGhsPLv/0/LMtXZbxX9HGxkm87Lsc5gwwkrp7Fjn2Fqv67sczhg/X2/Mohamed%20Moussa-X2.jpg" alt="Mohamed Moussa" loading="lazy"></div><div class="team-card-body"><h2>Mohamed Moussa</h2><p class="role">Chief Executive Officer</p><p class="country">Egypt</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/2023-Year-1-Headshots/i-FH3fdW4/0/KKTbt4VcKBX29hCZX95XGZKLR6rJP8Rh92pCfCFVs/X2/Helena%20Appakuo%20Dogo-X2.jpg" alt="Helena Dogo" loading="lazy"></div><div class="team-card-body"><h2>Helena Dogo</h2><p class="role">Chief Media Officer</p><p class="country">Côte d'Ivoire</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-zZZKPwk/0/NcKmWp9hRHzr5Cbkwbqp5hRLNzB7vL3pq2dppw2m3/X2/Temitope%20Johnson-X2.jpg" alt="Temitope Johnson" loading="lazy"></div><div class="team-card-body"><h2>Temitope Johnson</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Nigeria</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-PQPHfBq/0/NM7xjLsrZ55DjKwFhx5zZHqq8gGrKt9cx57z7bnrc/X2/Youssef%20Nassar-X2.jpg" alt="Youssef Nassar" loading="lazy"></div><div class="team-card-body"><h2>Youssef Nassar</h2><p class="role">Chief Technology Officer</p><p class="country">Egypt</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-bSdCmCn/0/NHT8Tfw5CN2PqndL7ftc5qwGKQ9gzbnDbKNc75SgH/X2/Fida%20Fufa-X2.jpg" alt="Fida Fufa" loading="lazy"></div><div class="team-card-body"><h2>Fida Fufa</h2><p class="role">Curriculum Localization Officer</p><p class="country">Ethiopia</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-rB6xV5z/0/KbwszqXbRm9rx6cvj8FBWTRWG2qPxQjx22LXnpSFt/X2/Youssef%20Boumhaout-X2.jpg" alt="Youssef Boumhout" loading="lazy"></div><div class="team-card-body"><h2>Youssef Boumhout</h2><p class="role">Co-Chief Program Officer</p><p class="country">Morocco</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-972rv2K/0/MX23q5Hz6xG68jNpbBGpHXrz3Zg8v2rX3qJQ42Vwg/X2/Jeremy%20Muchilwa-X2.jpg" alt="Jeremy Muchilwa" loading="lazy"></div><div class="team-card-body"><h2>Jeremy Muchilwa</h2><p class="role">Co-Chief Program Officer</p><p class="country">Kenya</p></div></div>
-      <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg" alt="Yassir Ahjiba" loading="lazy"></div><div class="team-card-body"><h2>Yassir Ahjiba</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Morocco</p></div></div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-GGhsPLv/0/LMtXZbxX9HGxkm87Lsc5gwwkrp7Fjn2Fqv67sczhg/X2/Mohamed%20Moussa-X2.jpg" alt="Mohamed Moussa" loading="lazy"></div>
+        <div class="team-card-body"><h2>Mohamed Moussa</h2><p class="role">Founder &amp; Executive Director</p><p class="country">Egypt</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-rB6xV5z/0/KbwszqXbRm9rx6cvj8FBWTRWG2qPxQjx22LXnpSFt/X2/Youssef%20Boumhaout-X2.jpg" alt="Youssef Boumhaout" loading="lazy"></div>
+        <div class="team-card-body"><h2>Youssef Boumhaout</h2><p class="role">Chief Learning Officer</p><p class="country">Morocco</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-PQPHfBq/0/NM7xjLsrZ55DjKwFhx5zZHqq8gGrKt9cx57z7bnrc/X2/Youssef%20Nassar-X2.jpg" alt="Youssef Nassar" loading="lazy"></div>
+        <div class="team-card-body"><h2>Youssef Nassar</h2><p class="role">Chief Program Officer</p><p class="country">Egypt</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/2023-Year-1-Headshots/i-FH3fdW4/0/KKTbt4VcKBX29hCZX95XGZKLR6rJP8Rh92pCfCFVs/X2/Helena%20Appakuo%20Dogo-X2.jpg" alt="Helena Dogo" loading="lazy"></div>
+        <div class="team-card-body"><h2>Helena Dogo</h2><p class="role">Chief Media Officer</p><p class="country">Côte d'Ivoire</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-972rv2K/0/MX23q5Hz6xG68jNpbBGpHXrz3Zg8v2rX3qJQ42Vwg/X2/Jeremy%20Muchilwa-X2.jpg" alt="Jeremy Muchilwa" loading="lazy"></div>
+        <div class="team-card-body"><h2>Jeremy Muchilwa</h2><p class="role">Quantum Physics Mentor</p><p class="country">Kenya</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg" alt="Yassir Ahjiba" loading="lazy"></div>
+        <div class="team-card-body"><h2>Yassir Ahjiba</h2><p class="role">Chief Logistics Officer</p><p class="country">Morocco</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-bSdCmCn/0/NHT8Tfw5CN2PqndL7ftc5qwGKQ9gzbnDbKNc75SgH/X2/Fida%20Fufa-X2.jpg" alt="Fida Fufa" loading="lazy"></div>
+        <div class="team-card-body"><h2>Fida Fufa</h2><p class="role">Chief Technology Officer</p><p class="country">Ethiopia</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-zZZKPwk/0/NcKmWp9hRHzr5Cbkwbqp5hRLNzB7vL3pq2dppw2m3/X2/Temitope%20Johnson-X2.jpg" alt="Temitope Johnson" loading="lazy"></div>
+        <div class="team-card-body"><h2>Temitope Johnson</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Nigeria</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Abdulhakim Fahmy</h2><p class="role">Computational Physics Mentor</p><p class="country">Egypt</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Dawit Dagne</h2><p class="role">Physics Research Mentor</p><p class="country">Ethiopia</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Hayder Zaghdoud</h2><p class="role">Political Science Mentor</p><p class="country">Tunisia</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Jack Kapund</h2><p class="role">Biology Research Mentor</p><p class="country">DRC</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Judi Wael</h2><p class="role">Environmental Engineering Mentor</p><p class="country">Egypt</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Ajibola Balogun</h2><p class="role">Anthropology Research Mentor</p><p class="country">Nigeria</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Abdelaziz Gamal</h2><p class="role">Social Media Manager</p><p class="country">Egypt</p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Youssef El-dershabi</h2><p class="role">Advisor</p><p class="country"></p></div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-img-wrap" style="background:#1a1816;display:flex;align-items:center;justify-content:center;">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25"><circle cx="32" cy="24" r="14" stroke="#cbac6d" stroke-width="1.5"/><path d="M8 58c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#cbac6d" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="team-card-body"><h2>Ismail Abdoelmagd</h2><p class="role">Advisor</p><p class="country">Egypt</p></div>
+      </div>
+
     </div>
   </div>
   <div class="team-nav">
@@ -1251,6 +1427,71 @@
   </div>
 </section>
 
+<!-- ── UNIVERSITIES ──────────────────────────────── -->
+<section id="universities" aria-label="Where our team studies">
+  <div class="uni-inner">
+    <p class="uni-label">Where our team went</p>
+    <div class="uni-track-wrap">
+      <div class="uni-track-fade uni-track-fade--left"></div>
+      <div class="uni-track-fade uni-track-fade--right"></div>
+      <div class="uni-track" id="uniTrack">
+        <!-- Tier 1: most prestigious — larger display -->
+        <div class="uni-item uni-item--lg" title="Yale University">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Yale_University_Shield_1.svg" alt="Yale" loading="lazy">
+        </div>
+        <div class="uni-item uni-item--lg" title="University of California, Berkeley">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Seal_of_University_of_California%2C_Berkeley.svg" alt="UC Berkeley" loading="lazy">
+        </div>
+        <div class="uni-item uni-item--lg" title="University of Michigan">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/University_of_Michigan_Logo.svg" alt="University of Michigan" loading="lazy">
+        </div>
+        <div class="uni-item uni-item--lg" title="Vanderbilt University">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Vanderbilt_University_Commodores_logo.svg" alt="Vanderbilt" loading="lazy">
+        </div>
+        <div class="uni-item uni-item--lg" title="Tufts University">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e6/Tufts_University_seal.svg/150px-Tufts_University_seal.svg.png" alt="Tufts" loading="lazy">
+        </div>
+        <!-- Tier 2: standard -->
+        <div class="uni-item" title="University of British Columbia">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Ubc-new-logo.svg/200px-Ubc-new-logo.svg.png" alt="UBC" loading="lazy">
+        </div>
+        <div class="uni-item" title="Durham University">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Durham_University_Logo.svg/200px-Durham_University_Logo.svg.png" alt="Durham" loading="lazy">
+        </div>
+        <div class="uni-item" title="University of Rochester">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/University_of_Rochester_seal.svg/150px-University_of_Rochester_seal.svg.png" alt="Rochester" loading="lazy">
+        </div>
+        <div class="uni-item" title="University of Hong Kong">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/76/HKU_coat_of_arms.svg/120px-HKU_coat_of_arms.svg.png" alt="HKU" loading="lazy">
+        </div>
+        <div class="uni-item" title="Northeastern University">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/94/Northeastern_University_seal.svg/150px-Northeastern_University_seal.svg.png" alt="Northeastern" loading="lazy">
+        </div>
+        <div class="uni-item" title="Gettysburg College">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/Gettysburg_College_seal.svg/150px-Gettysburg_College_seal.svg.png" alt="Gettysburg" loading="lazy">
+        </div>
+        <div class="uni-item" title="Reed College">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Reed_College_seal.svg/150px-Reed_College_seal.svg.png" alt="Reed College" loading="lazy">
+        </div>
+        <div class="uni-item" title="University of San Francisco">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/50/University_of_San_Francisco_seal.svg/150px-University_of_San_Francisco_seal.svg.png" alt="USF" loading="lazy">
+        </div>
+        <div class="uni-item" title="Macalester College">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a1/Macalester_College_seal.svg/150px-Macalester_College_seal.svg.png" alt="Macalester" loading="lazy">
+        </div>
+        <div class="uni-item" title="University of Aberdeen">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/45/University_of_Aberdeen_Crest.svg/120px-University_of_Aberdeen_Crest.svg.png" alt="Aberdeen" loading="lazy">
+        </div>
+        <div class="uni-item" title="Minerva University">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Minerva_University_wordmark.svg/200px-Minerva_University_wordmark.svg.png" alt="Minerva" loading="lazy">
+        </div>
+        <div class="uni-item" title="Constructor University">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Constructor_University_logo.svg/200px-Constructor_University_logo.svg.png" alt="Constructor University" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- ── PARTNERS ───────────────────────────────────── -->
 <section id="our-partners" aria-label="Our Partners">
   <p class="partners-label">Partners &amp; Supporters</p>
@@ -1344,8 +1585,8 @@
   <div class="footer-inner">
     <div class="footer-cta-block reveal">
       <p class="footer-cta-label">Get in touch</p>
-      <a href="mailto:info@arpl.africa" class="footer-email-link" data-text="info@arpl.africa">
-        info@arpl.africa
+      <a href="/cdn-cgi/l/email-protection#b5dcdbd3daf5d4c7c5d99bd4d3c7dcd6d4" class="footer-email-link" data-text="info@arpl.africa">
+        <span class="__cf_email__" data-cfemail="60090e060f200112100c4e010612090301">[email&#160;protected]</span>
       </a>
     </div>
     <div class="footer-bottom">
@@ -1374,7 +1615,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─────────────────────────────────────
    STAR FIELD
    Multi-layered: distant stars (small,
@@ -1601,86 +1842,126 @@
 
 /* ─────────────────────────────────────
    TEAM CAROUSEL
+   Buttons use delegated listeners on
+   document so Cloudflare/CSP rewrites
+   cannot strip inline onclick handlers.
 ───────────────────────────────────── */
 (function(){
-  const track = document.getElementById('teamTrack');
-  const prev  = document.getElementById('teamPrev');
-  const next  = document.getElementById('teamNext');
-  const dots  = document.getElementById('teamDots');
-  if(!track || !prev) return;
-  let cur=0, ap, st={};
+  function initCarousel(){
+    var track = document.getElementById('teamTrack');
+    var prevBtn = document.getElementById('teamPrev');
+    var nextBtn = document.getElementById('teamNext');
+    var dotsEl  = document.getElementById('teamDots');
+    if(!track || !prevBtn || !nextBtn) return;
 
-  function measure(){
-    const card = track.querySelector('.team-card');
-    const gap  = parseFloat(getComputedStyle(track).gap) || 20;
-    const cw   = card ? card.offsetWidth + gap : 284;
-    const vis  = Math.max(1, Math.floor(track.parentElement.offsetWidth / cw));
-    const tot  = track.querySelectorAll('.team-card').length;
-    return { cw, vis, tot, max: Math.max(0, tot - vis) };
-  }
+    var cur = 0;
+    var autoTimer = null;
 
-  function buildDots(pages){
-    dots.innerHTML = '';
-    for(let i = 0; i < pages; i++){
-      const d = document.createElement('button');
-      d.className = 'team-dot' + (i === 0 ? ' active' : '');
-      d.setAttribute('role','tab');
-      d.setAttribute('aria-label','Page ' + (i + 1));
-      d.addEventListener('click', () => go(i * st.vis));
-      dots.appendChild(d);
+    function getState(){
+      var cards = track.querySelectorAll('.team-card');
+      var gap   = parseFloat(window.getComputedStyle(track).gap) || 20;
+      var cw    = cards.length ? cards[0].offsetWidth + gap : 284;
+      var vis   = Math.max(1, Math.floor(track.parentElement.offsetWidth / cw));
+      return { cw: cw, vis: vis, tot: cards.length, max: Math.max(0, cards.length - vis) };
     }
-  }
 
-  function updDots(){
-    const p = Math.round(cur / st.vis);
-    dots.querySelectorAll('.team-dot').forEach((d, i) =>
-      d.classList.toggle('active', i === p)
-    );
-  }
-
-  function go(idx){
-    cur = Math.max(0, Math.min(idx, st.max));
-    const x = -(cur * st.cw);
-    if(typeof gsap !== 'undefined'){
-      gsap.to(track, { x, duration: 0.55, ease: 'power3.out' });
-    } else {
-      track.style.transform = 'translateX(' + x + 'px)';
+    function rebuildDots(st){
+      dotsEl.innerHTML = '';
+      var pages = Math.ceil(st.tot / st.vis);
+      for(var i = 0; i < pages; i++){
+        (function(page){
+          var d = document.createElement('button');
+          d.className = 'team-dot' + (page === 0 ? ' active' : '');
+          d.setAttribute('role','tab');
+          d.setAttribute('aria-label','Page ' + (page + 1));
+          d.addEventListener('click', function(){ go(page * getState().vis); });
+          dotsEl.appendChild(d);
+        })(i);
+      }
     }
-    updDots();
+
+    function syncDots(){
+      var st = getState();
+      var page = Math.round(cur / st.vis);
+      var btns = dotsEl.querySelectorAll('.team-dot');
+      for(var i = 0; i < btns.length; i++){
+        btns[i].classList.toggle('active', i === page);
+      }
+    }
+
+    function go(idx){
+      var st = getState();
+      cur = Math.max(0, Math.min(idx, st.max));
+      var x = -(cur * st.cw);
+      if(typeof gsap !== 'undefined'){
+        gsap.to(track, { x: x, duration: 0.5, ease: 'power3.out' });
+      } else {
+        track.style.transition = 'transform 0.5s ease';
+        track.style.transform  = 'translateX(' + x + 'px)';
+      }
+      syncDots();
+    }
+
+    function startAuto(){
+      stopAuto();
+      autoTimer = setInterval(function(){
+        var st = getState();
+        go(cur >= st.max ? 0 : cur + 1);
+      }, 4500);
+    }
+
+    function stopAuto(){
+      if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+    }
+
+    function init(){
+      var st = getState();
+      cur = Math.min(cur, st.max);
+      rebuildDots(st);
+      go(cur);
+      startAuto();
+    }
+
+    /* ── Attach listeners ── */
+    prevBtn.addEventListener('click', function(){
+      var st = getState();
+      go(cur > 0 ? cur - 1 : st.max);
+    });
+    nextBtn.addEventListener('click', function(){
+      var st = getState();
+      go(cur >= st.max ? 0 : cur + 1);
+    });
+
+    track.addEventListener('mouseenter', stopAuto);
+    track.addEventListener('mouseleave', startAuto);
+
+    var touchStartX = 0;
+    track.addEventListener('touchstart', function(e){
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener('touchend', function(e){
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if(Math.abs(diff) > 40){
+        var st = getState();
+        go(diff > 0 ? cur + 1 : cur - 1);
+      }
+    });
+
+    var resizeTimer;
+    window.addEventListener('resize', function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(init, 200);
+    });
+
+    init();
   }
 
-  function startAp(){
-    clearInterval(ap);
-    ap = setInterval(() => go(cur >= st.max ? 0 : cur + 1), 4500);
+  /* Run after DOM is ready */
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initCarousel);
+  } else {
+    initCarousel();
   }
-
-  function init(){
-    st = measure();
-    cur = Math.min(cur, st.max);
-    buildDots(Math.ceil(st.tot / st.vis));
-    go(cur);
-    startAp();
-  }
-
-  init();
-
-  track.addEventListener('mouseenter', () => clearInterval(ap));
-  track.addEventListener('mouseleave', startAp);
-  prev.addEventListener('click', () => go(cur > 0 ? cur - 1 : st.max));
-  next.addEventListener('click', () => go(cur >= st.max ? 0 : cur + 1));
-
-  let tx = 0;
-  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', e => {
-    const d = tx - e.changedTouches[0].clientX;
-    if(Math.abs(d) > 40) go(d > 0 ? cur + 1 : cur - 1);
-  });
-
-  let rt;
-  window.addEventListener('resize', () => {
-    clearTimeout(rt);
-    rt = setTimeout(init, 200);
-  });
 })();
 </script>
 </body>
