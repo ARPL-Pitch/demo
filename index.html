@@ -214,14 +214,16 @@
     .hero-eyebrow {
       font-size: clamp(9px, 1.5vw, 11px); letter-spacing: 4px;
       text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1.5rem; font-weight: 400; opacity: 0;
+      margin-bottom: 1.5rem; font-weight: 400;
     }
+    .js-anim .hero-eyebrow { opacity: 0; transform: translateY(16px); }
     .hero-title {
       font-family: var(--font-serif);
       font-size: clamp(1.9rem, 4.2vw, 4.4rem);
       font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
-      color: var(--text); margin-bottom: 1.75rem; opacity: 0;
+      color: var(--text); margin-bottom: 1.75rem;
     }
+    .js-anim .hero-title { opacity: 0; transform: translateY(20px); }
     .hero-title em {
       font-style: italic;
       background: var(--grad-text); background-size: 200%;
@@ -233,12 +235,14 @@
     .hero-sub {
       font-size: clamp(14px, 1.8vw, 17px); color: var(--muted);
       max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7;
-      font-weight: 300; opacity: 0;
+      font-weight: 300;
     }
+    .js-anim .hero-sub { opacity: 0; transform: translateY(20px); }
     .hero-actions {
       display: flex; gap: 1rem; justify-content: center;
-      flex-wrap: wrap; opacity: 0;
+      flex-wrap: wrap;
     }
+    .js-anim .hero-actions { opacity: 0; transform: translateY(20px); }
 
     /* ═══════════════════════════════════
        BUTTONS
@@ -269,8 +273,9 @@
     .hero-scroll-cue {
       position: absolute; bottom: 2.5rem; left: 50%;
       transform: translateX(-50%); z-index: 2;
-      display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
+    .js-anim .hero-scroll-cue { opacity: 0; }
     .hero-scroll-cue span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
     .scroll-line {
       width: 1px; height: 44px;
@@ -302,7 +307,8 @@
       font-size: 15px; color: var(--muted); line-height: 1.75;
       font-weight: 300; max-width: 580px; margin-top: 1.25rem;
     }
-    .reveal { opacity: 0; transform: translateY(28px); }
+    .reveal { }
+    .js-anim .reveal { opacity: 0; transform: translateY(28px); }
     hr.section-rule {
       border: none; border-top: 1px solid var(--border);
       margin: 0; width: 100%;
@@ -1338,8 +1344,8 @@
   <div class="footer-inner">
     <div class="footer-cta-block reveal">
       <p class="footer-cta-label">Get in touch</p>
-      <a href="/cdn-cgi/l/email-protection#046d6a626b44657674682a6562766d6765" class="footer-email-link" data-text="info@arpl.africa">
-        <span class="__cf_email__" data-cfemail="6900070f0629081b190547080f1b000a08">[email&#160;protected]</span>
+      <a href="mailto:info@arpl.africa" class="footer-email-link" data-text="info@arpl.africa">
+        info@arpl.africa
       </a>
     </div>
     <div class="footer-bottom">
@@ -1540,62 +1546,55 @@
 
 /* ─────────────────────────────────────
    HERO ANIMATIONS
-───────────────────────────────────── */
-window.addEventListener('load', () => {
-  if(typeof gsap === 'undefined') return;
-  gsap.timeline({ delay: 0.4 })
-    .to('#heroEyebrow', { opacity:1, y:0, duration:.8, ease:'power3.out' })
-    .to('#heroTitle',   { opacity:1, y:0, duration:1,  ease:'power3.out' }, '-=.5')
-    .to('#heroSub',     { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.6')
-    .to('#heroActions', { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.5')
-    .to('#scrollCue',   { opacity:1,      duration:.8, ease:'power2.out' }, '-=.2');
-
-  if(typeof ScrollTrigger !== 'undefined'){
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.reveal').forEach(el => {
-      gsap.to(el, {
-        scrollTrigger: { trigger: el, start: 'top 88%' },
-        opacity:1, y:0, duration:.85, ease:'power3.out'
-      });
-    });
-  }
-});
-
-/* ─────────────────────────────────────
-   TEAM CAROUSEL
+   js-anim class is added immediately so
+   CSS hides elements only when JS runs.
+   A 3s timeout reveals everything as
+   fallback if GSAP never loads.
 ───────────────────────────────────── */
 (function(){
-  const track = document.getElementById('teamTrack');
-  const prev  = document.getElementById('teamPrev');
-  const next  = document.getElementById('teamNext');
-  const dots  = document.getElementById('teamDots');
-  if(!track || !prev) return;
-  let cur=0, ap, st={};
+  // Mark document so opacity-0 CSS kicks in
+  document.documentElement.classList.add('js-anim');
 
-  function measure(){
-    const card = track.querySelector('.team-card');
-    const gap  = parseFloat(getComputedStyle(track).gap) || 20;
-    const cw   = card ? card.offsetWidth + gap : 284;
-    const vis  = Math.max(1, Math.floor(track.parentElement.offsetWidth / cw));
-    const tot  = track.querySelectorAll('.team-card').length;
-    return { cw, vis, tot, max: Math.max(0, tot - vis) };
-  }
-  function buildDots(pages){
-    dots.innerHTML='';
-    for(let i=0;i<pages;i++){
-      const d=document.createElement('button');
-      d.className='team-dot'+(i===0?' active':'');
-      d.setAttribute('role','tab'); d.setAttribute('aria-label','Page '+(i+1));
-      d.addEventListener('click',()=>go(i*st.vis));
-      dots.appendChild(d);
+  // Hard fallback: if GSAP doesn't fire within 3s, show everything
+  const fallbackTimer = setTimeout(function(){
+    document.documentElement.classList.remove('js-anim');
+    document.querySelectorAll('.reveal, .hero-title, .hero-eyebrow, .hero-sub, .hero-actions, .hero-scroll-cue').forEach(function(el){
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }, 3000);
+
+  window.addEventListener('load', function(){
+    if(typeof gsap === 'undefined'){
+      // GSAP didn't load — clear fallback and show immediately
+      clearTimeout(fallbackTimer);
+      document.documentElement.classList.remove('js-anim');
+      return;
     }
-  }
-  function updDots(){
-    const p=Math.round(cur/st.vis);
-    dots.querySelectorAll('.team-dot').forEach((d,i)=>d.classList.toggle('active',i===p));
-  }
-  function go(idx){
-    cur=Math.max(0,Math.min(idx,st.max));
-    const x=-(cur*st.cw);
-    if(typeof gsap!=='undefined') gsap.to(track,{x,duration:.55,ease:'power3.out'});
-    else track.style.transform='translat
+
+    clearTimeout(fallbackTimer);
+
+    gsap.timeline({ delay: 0.3 })
+      .to('#heroEyebrow', { opacity:1, y:0, duration:.8, ease:'power3.out' })
+      .to('#heroTitle',   { opacity:1, y:0, duration:1,  ease:'power3.out' }, '-=.5')
+      .to('#heroSub',     { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.6')
+      .to('#heroActions', { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.5')
+      .to('#scrollCue',   { opacity:1,      duration:.8, ease:'power2.out' }, '-=.2');
+
+    if(typeof ScrollTrigger !== 'undefined'){
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.reveal').forEach(function(el){
+        gsap.to(el, {
+          scrollTrigger: { trigger: el, start: 'top 88%' },
+          opacity:1, y:0, duration:.85, ease:'power3.out'
+        });
+      });
+    } else {
+      // ScrollTrigger missing — reveal all section content immediately
+      document.querySelectorAll('.reveal').forEach(function(el){
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  });
+})();
