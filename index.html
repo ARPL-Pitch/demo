@@ -218,9 +218,9 @@
     }
     .hero-title {
       font-family: var(--font-serif);
-      font-size: clamp(2.2rem, 6.5vw, 6.5rem);
-      font-weight: 300; line-height: 1.06; letter-spacing: -0.02em;
-      color: var(--text); margin-bottom: 2rem; opacity: 0;
+      font-size: clamp(1.9rem, 4.2vw, 4.4rem);
+      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 1.75rem; opacity: 0;
     }
     .hero-title em {
       font-style: italic;
@@ -626,6 +626,66 @@
     .partners-track img:hover { opacity: 0.65; }
 
     /* ═══════════════════════════════════
+       GROUP PHOTO  (#cohort-photo)
+    ═══════════════════════════════════ */
+    #cohort-photo {
+      padding: clamp(4rem, 9vw, 9rem) 0;
+      background: var(--bg);
+    }
+    .cohort-photo-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 4rem);
+    }
+    .cohort-photo-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .cohort-photo-wrap {
+      position: relative;
+      width: 100%;
+      /* aspect-ratio keeps the image from stretching or collapsing at any width */
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    /* Fallback for browsers without aspect-ratio support */
+    @supports not (aspect-ratio: 16 / 9) {
+      .cohort-photo-wrap { padding-bottom: 56.25%; height: 0; }
+      .cohort-photo-wrap img { position: absolute; inset: 0; }
+    }
+    .cohort-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      /* subtle desaturation to match dark palette; removes on hover */
+      filter: grayscale(15%) brightness(0.92);
+      transition: filter 0.5s ease, transform 0.6s ease;
+    }
+    .cohort-photo-wrap:hover img {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.012);
+    }
+    /* Bottom gradient so it fades into the page background */
+    .cohort-photo-wrap::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 30%;
+      background: linear-gradient(to top, rgba(10,9,8,0.55), transparent);
+      pointer-events: none;
+    }
+    .cohort-photo-caption {
+      text-align: center;
+      font-size: 12px;
+      color: var(--faint);
+      letter-spacing: 0.5px;
+      margin-top: 1.25rem;
+    }
+
+    /* ═══════════════════════════════════
        APPLY  (#apply)
     ═══════════════════════════════════ */
     #apply {
@@ -759,7 +819,7 @@
       .menu-nav-list li a { font-size: clamp(2.2rem, 10vw, 3.5rem); }
       .menu-footer { flex-direction: column; gap: 1rem; }
       #hero { min-height: 100svh; }
-      .hero-title { font-size: clamp(1.9rem, 7.5vw, 2.6rem); }
+      .hero-title { font-size: clamp(1.75rem, 6.5vw, 2.3rem); }
       .hero-eyebrow { font-size: 9px; letter-spacing: 3px; }
       .hero-actions { flex-direction: column; align-items: center; }
       .btn-primary, .btn-ghost { width: 100%; max-width: 280px; text-align: center; display: flex; justify-content: center; }
@@ -777,7 +837,7 @@
       .footer-bottom-left { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
     }
     @media (max-width: 360px) {
-      .hero-title { font-size: 1.7rem; }
+      .hero-title { font-size: 1.55rem; }
     }
 
     /* ═══════════════════════════════════
@@ -835,7 +895,7 @@
   </ul>
   <div class="menu-footer">
     <div class="menu-footer-item">Research training for<br>African secondary school students</div>
-    <div class="menu-footer-item"><a href="mailto:team@arpl.foundation">team@arpl.foundation</a></div>
+    <div class="menu-footer-item"><a href="/cdn-cgi/l/email-protection#f891969e97b8998a8894d6999e8a919b99"><span class="__cf_email__" data-cfemail="a0c9cec6cfe0c1d2d0cc8ec1c6d2c9c3c1">[email&#160;protected]</span></a></div>
     <div class="menu-footer-item"><a href="tel:+27815270763">+27 081 527 0763</a></div>
     <div class="menu-footer-item">
       <a href="http://maps.apple.com/?q=1050+Printech+Ave+Honeydew" target="_blank" rel="noopener">
@@ -881,7 +941,7 @@
   </div>
   <div class="hero-vignette" aria-hidden="true"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow" id="heroEyebrow">Est. 2023 · Pan-African</p>
+    <p class="hero-eyebrow" id="heroEyebrow">Est. 2024 · Pan-African</p>
     <h1 class="hero-title" id="heroTitle">
       Developing the Next<br>
       Generation of <em>African</em><br>
@@ -894,7 +954,7 @@
     </p>
     <div class="hero-actions" id="heroActions">
       <a href="#apply" class="btn-primary">Be a Scholar</a>
-      <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost">Read the Handbook</a>
+      <a href="https://arpl-foundation.notion.site/ARPL-Handbook-290326ba33bf819aba81daa65afb882a?pvs=143" target="_blank" rel="noopener" class="btn-ghost">Read the Handbook</a>
     </div>
   </div>
   <div class="hero-scroll-cue" id="scrollCue" aria-hidden="true">
@@ -1132,6 +1192,34 @@
   </div>
 </section>
 
+<!-- ── GROUP PHOTO ───────────────────────────────── -->
+<section id="cohort-photo" aria-labelledby="cohortPhotoHeading">
+  <div class="cohort-photo-inner">
+    <div class="cohort-photo-header reveal">
+      <p class="section-label">Season 2 · 2025–2026</p>
+      <h2 class="section-heading" id="cohortPhotoHeading">The cohort</h2>
+    </div>
+    <div class="cohort-photo-wrap reveal">
+      <!--
+        Replace the src below with the path to your group photo.
+        If the photo is in the imgs/ folder, use:  src="imgs/your-photo-filename.jpg"
+        If it's hosted online, paste the full URL.
+
+        object-position is set to "center top" so faces are prioritised
+        when the image is cropped on narrow screens. Adjust if needed:
+          object-position: center center   (centres the image)
+          object-position: center 20%      (shows upper section)
+      -->
+      <img
+        src="imgs/cohort-photo.jpg"
+        alt="ARPL Season 2 scholars and leadership team"
+        loading="lazy"
+      >
+    </div>
+    <p class="cohort-photo-caption">ARPL scholars and leadership team, African Leadership Academy, 2025</p>
+  </div>
+</section>
+
 <!-- ── TEAM ──────────────────────────────────────── -->
 <section id="our-team" aria-labelledby="teamHeading">
   <div class="team-header reveal">
@@ -1183,7 +1271,7 @@
         <p class="section-sub reveal" style="margin-bottom:3rem">Scholars are selected through a written application followed by a Finalist Day assessment. The process is competitive, and the program is intentionally small.</p>
 
         <div class="apply-note reveal">
-          <p>Season 2 is currently underway. At this stage, ARPL is open to students enrolled at the African Leadership Academy only. Applications for Season 3, which will extend to a wider group of African secondary school students, will open later in 2026.</p>
+          <p>Season 2 is currently underway at the African Leadership Academy. Applications are open to students at any African high school. If you are currently enrolled at a secondary school anywhere on the continent, you are eligible to apply.</p>
         </div>
 
         <div class="eligibility-list">
@@ -1192,8 +1280,8 @@
               <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
             </div>
             <div>
-              <strong>ALA enrollment (Season 2 requirement)</strong>
-              <p>You must be a Year 1 or Year 2 student at the African Leadership Academy to be eligible for the current cohort.</p>
+              <strong>Any African high school student</strong>
+              <p>There is no school-specific requirement. If you are a secondary school student somewhere in Africa and can commit to the program, you can apply.</p>
             </div>
           </div>
           <div class="eligibility-item reveal">
@@ -1235,10 +1323,10 @@
           <div class="apply-detail-row"><span>Cohort size</span><span>~30 scholars</span></div>
           <div class="apply-detail-row"><span>Mentorship</span><span>1-on-1 weekly sessions</span></div>
           <div class="apply-detail-row"><span>Outcome</span><span class="gold">Peer-reviewed publication</span></div>
-          <div class="apply-detail-row"><span>Current eligibility</span><span class="gold">ALA students only</span></div>
+          <div class="apply-detail-row"><span>Current eligibility</span><span class="gold">Any African high school student</span></div>
         </div>
         <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;margin-bottom:1rem">Submit an application</a>
-        <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost" style="display:block;text-align:center">Read the handbook first</a>
+        <a href="https://arpl-foundation.notion.site/ARPL-Handbook-290326ba33bf819aba81daa65afb882a?pvs=143" target="_blank" rel="noopener" class="btn-ghost" style="display:block;text-align:center">Read the handbook first</a>
       </div>
 
     </div>
@@ -1250,8 +1338,8 @@
   <div class="footer-inner">
     <div class="footer-cta-block reveal">
       <p class="footer-cta-label">Get in touch</p>
-      <a href="mailto:team@arpl.foundation" class="footer-email-link" data-text="team@arpl.foundation">
-        team@arpl.foundation
+      <a href="/cdn-cgi/l/email-protection#046d6a626b44657674682a6562766d6765" class="footer-email-link" data-text="info@arpl.africa">
+        <span class="__cf_email__" data-cfemail="6900070f0629081b190547080f1b000a08">[email&#160;protected]</span>
       </a>
     </div>
     <div class="footer-bottom">
@@ -1262,8 +1350,8 @@
       <ul class="footer-links">
         <li><a href="#program">The Program</a></li>
         <li><a href="#apply">Apply</a></li>
-        <li><a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener">Handbook</a></li>
-        <li><a href="mailto:team@arpl.foundation">Contact</a></li>
+        <li><a href="https://arpl-foundation.notion.site/ARPL-Handbook-290326ba33bf819aba81daa65afb882a?pvs=143" target="_blank" rel="noopener">Handbook</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#761f181019361704061a581710041f1517">Contact</a></li>
       </ul>
       <div class="social-links">
         <a href="https://www.instagram.com/arpl_team/" target="_blank" rel="noopener" class="social-link" aria-label="ARPL on Instagram">
@@ -1280,7 +1368,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─────────────────────────────────────
    STAR FIELD
    Multi-layered: distant stars (small,
@@ -1510,21 +1598,4 @@ window.addEventListener('load', () => {
     cur=Math.max(0,Math.min(idx,st.max));
     const x=-(cur*st.cw);
     if(typeof gsap!=='undefined') gsap.to(track,{x,duration:.55,ease:'power3.out'});
-    else track.style.transform='translateX('+x+'px)';
-    updDots();
-  }
-  function startAp(){ clearInterval(ap); ap=setInterval(()=>go(cur>=st.max?0:cur+1),4500); }
-  function init(){ st=measure(); cur=Math.min(cur,st.max); buildDots(Math.ceil(st.tot/st.vis)); go(cur); startAp(); }
-  init();
-  track.addEventListener('mouseenter',()=>clearInterval(ap));
-  track.addEventListener('mouseleave',startAp);
-  prev.addEventListener('click',()=>go(cur>0?cur-1:st.max));
-  next.addEventListener('click',()=>go(cur>=st.max?0:cur+1));
-  let tx=0;
-  track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-  track.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?cur+1:cur-1);});
-  let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
-})();
-</script>
-</body>
-</html>
+    else track.style.transform='translat
