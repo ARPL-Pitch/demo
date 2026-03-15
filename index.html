@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ARPL — African Research Program for Leaders</title>
-  <meta name="description" content="The First Research Program Exclusive for Africans. Developing the next generation of African researchers." />
-  <meta property="og:title" content="ARPL" />
-  <meta property="og:description" content="First Research Program exclusive for Africans" />
+  <meta name="description" content="The first research program exclusively for Africans. Training secondary school students in rigorous research methodology." />
+  <meta property="og:title" content="ARPL — African Research Program for Leaders" />
+  <meta property="og:description" content="The first research program exclusively for Africans." />
   <meta property="og:image" content="imgs/ARPL_Logo.jpg" />
   <link rel="icon" type="image/svg+xml" href="imgs/ARPL-cropped.svg">
 
@@ -18,39 +18,42 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
   <style>
-    /* ═══════════════════════════════
-       DESIGN TOKENS
-    ═══════════════════════════════ */
+    /* ═══════════════════════════════════
+       TOKENS
+    ═══════════════════════════════════ */
     :root {
-      --bg:          #0c0b09;
-      --surface:     #141210;
-      --surface-2:   #1c1a17;
-      --border:      rgba(255,255,255,0.07);
+      --bg:         #0a0908;
+      --surface:    #121110;
+      --surface-2:  #1a1816;
+      --border:     rgba(255,255,255,0.07);
+      --border-2:   rgba(255,255,255,0.12);
 
-      --text:        #f0ece4;
-      --muted:       #8a8278;
-      --faint:       #3d3a34;
+      --text:       #f0ece4;
+      --muted:      #8a8278;
+      --faint:      #3a3730;
 
-      /* Brand colors sampled from ARPL logo */
-      --crimson:     #822128;
-      --crimson-dk:  #5c1418;
-      --gold:        #cbac6d;
-      --gold-dk:     #a08942;
+      --crimson:    #822128;
+      --crimson-dk: #5c1418;
+      --gold:       #cbac6d;
+      --gold-lt:    #e0c98a;
+      --gold-dk:    #a08942;
 
-      --grad:        linear-gradient(135deg, #3d0d10 0%, #822128 50%, #cbac6d 100%);
-      --grad-text:   linear-gradient(90deg, #cbac6d, #a8893a, #cbac6d);
+      --grad:       linear-gradient(135deg, #3d0d10 0%, #822128 50%, #cbac6d 100%);
+      --grad-h:     linear-gradient(90deg, #3d0d10 0%, #822128 50%, #cbac6d 100%);
+      --grad-text:  linear-gradient(90deg, #cbac6d, #a08942, #cbac6d);
 
-      --font-serif:  'Cormorant Garamond', Georgia, serif;
-      --font-sans:   'DM Sans', system-ui, sans-serif;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
 
-      --nav-h:       72px;
-      --ease:        cubic-bezier(0.77, 0, 0.175, 1);
-      --spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+      --nav-h:      72px;
+      --ease:       cubic-bezier(0.77, 0, 0.175, 1);
+      --spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+      --max-w:      1140px;
     }
 
-    /* ═══════════════════════════════
-       BASE RESET
-    ═══════════════════════════════ */
+    /* ═══════════════════════════════════
+       RESET
+    ═══════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
@@ -69,34 +72,31 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
     a      { text-decoration: none; color: inherit; }
     img    { display: block; max-width: 100%; }
     button { font-family: inherit; cursor: pointer; border: none; background: none; }
     ul     { list-style: none; }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
        NOISE GRAIN
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     .noise {
-      position: fixed; inset: 0; z-index: 1000;
-      pointer-events: none; opacity: 0.025;
+      position: fixed; inset: 0; z-index: 1000; pointer-events: none; opacity: 0.03;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px;
     }
 
-    /* ═══════════════════════════════
-       PARTICLE CANVAS
-    ═══════════════════════════════ */
-    #particle-canvas {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      z-index: 0; pointer-events: none; opacity: 0.4;
+    /* ═══════════════════════════════════
+       STAR FIELD CANVAS
+    ═══════════════════════════════════ */
+    #star-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
        NAV
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     nav {
       position: fixed; top: 0; left: 0; right: 0;
       height: var(--nav-h); z-index: 900;
@@ -105,33 +105,26 @@
       transition: transform 0.3s var(--ease);
     }
     nav::before {
-      content: '';
-      position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(180deg, rgba(12,11,9,0.93) 0%, rgba(12,11,9,0.65) 100%);
-      backdrop-filter: blur(20px) saturate(150%);
-      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, rgba(10,9,8,0.95) 0%, rgba(10,9,8,0.7) 100%);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
       border-bottom: 1px solid var(--border);
     }
     nav.hidden { transform: translateY(-100%); }
 
     .nav-inner {
-      width: 100%; display: flex;
-      align-items: center; justify-content: space-between;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
     }
-
     .nav-menu-btn {
-      display: flex; align-items: center; gap: 12px;
-      cursor: pointer; padding: 8px 0;
+      display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 8px 0;
     }
     .nav-icon {
       width: 22px; height: 14px; position: relative;
       display: flex; flex-direction: column; justify-content: space-between;
     }
-    .nav-icon span,
-    .nav-icon::before,
-    .nav-icon::after {
-      content: ''; display: block; height: 1.5px;
-      background: var(--text);
+    .nav-icon span, .nav-icon::before, .nav-icon::after {
+      content: ''; display: block; height: 1.5px; background: var(--text);
       transition: all 0.3s var(--ease); transform-origin: center;
     }
     .nav-icon span    { width: 100%; }
@@ -142,20 +135,13 @@
     .nav-menu-btn.active .nav-icon span   { opacity: 0; transform: scaleX(0); }
     .nav-menu-btn.active .nav-icon::before { width: 100%; transform: rotate(45deg) translate(4px, 4px); }
     .nav-menu-btn.active .nav-icon::after  { width: 100%; transform: rotate(-45deg) translate(4px, -4px); }
-
     .nav-label {
       font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
       font-weight: 400; color: var(--muted); transition: color 0.2s;
     }
-    .nav-menu-btn:hover .nav-label,
-    .nav-menu-btn.active .nav-label { color: var(--text); }
-
-    .nav-logo img {
-      height: 36px; width: auto;
-      filter: brightness(1.1); transition: opacity 0.2s;
-    }
-    .nav-logo:hover img { opacity: 0.8; }
-
+    .nav-menu-btn:hover .nav-label, .nav-menu-btn.active .nav-label { color: var(--text); }
+    .nav-logo img { height: 36px; width: auto; filter: brightness(1.1); transition: opacity 0.2s; }
+    .nav-logo:hover img { opacity: 0.75; }
     .nav-cta {
       font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
       font-weight: 500; color: var(--muted); transition: color 0.2s;
@@ -165,31 +151,25 @@
     .nav-cta:hover { color: var(--gold); }
     .nav-cta:hover::after { transform: translateX(4px); }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
        MENU OVERLAY
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     .menu-overlay {
-      position: fixed; inset: 0; z-index: 800;
-      background: var(--bg);
+      position: fixed; inset: 0; z-index: 800; background: var(--bg);
       display: flex; flex-direction: column; justify-content: center;
       padding: calc(var(--nav-h) + 3rem) clamp(1.5rem, 8vw, 8rem) 4rem;
-      pointer-events: none; opacity: 0;
-      clip-path: inset(0 0 100% 0);
-      transition: opacity 0.5s ease, clip-path 0.7s var(--ease);
-      overflow-y: auto;
+      pointer-events: none; opacity: 0; clip-path: inset(0 0 100% 0);
+      transition: opacity 0.5s ease, clip-path 0.7s var(--ease); overflow-y: auto;
     }
     .menu-overlay.open { pointer-events: auto; opacity: 1; clip-path: inset(0 0 0% 0); }
-
-    .menu-nav-list { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 3rem; }
+    .menu-nav-list { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 3rem; }
     .menu-nav-list li a {
       font-family: var(--font-serif);
       font-size: clamp(2.8rem, 8vw, 8rem);
-      font-weight: 300; color: var(--faint);
-      line-height: 1.1; letter-spacing: -0.02em;
-      transition: color 0.3s; display: inline-block;
+      font-weight: 300; color: var(--faint); line-height: 1.1;
+      letter-spacing: -0.02em; transition: color 0.3s; display: inline-block;
     }
     .menu-nav-list li a:hover { color: var(--text); -webkit-text-stroke: 1px var(--gold); }
-
     .menu-footer {
       display: flex; flex-wrap: wrap; gap: 1.5rem 3rem;
       border-top: 1px solid var(--border); padding-top: 2rem;
@@ -198,32 +178,38 @@
     .menu-footer-item a { color: var(--muted); transition: color 0.2s; position: relative; }
     .menu-footer-item a::after {
       content: ''; position: absolute; bottom: -2px; left: 0;
-      width: 0; height: 1px; background: var(--gold);
-      transition: width 0.4s var(--ease);
+      width: 0; height: 1px; background: var(--gold); transition: width 0.4s var(--ease);
     }
     .menu-footer-item a:hover { color: var(--text); }
     .menu-footer-item a:hover::after { width: 100%; }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
        HERO
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     #hero {
-      position: relative; height: 100vh; min-height: 560px;
+      position: relative; height: 100vh; min-height: 620px;
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
-    .hero-3d { position: absolute; inset: 0; z-index: 1; }
-    #canvas3d { width: 100% !important; height: 100% !important; object-fit: cover; }
+    /* Radial vignette so centre is clear */
     .hero-vignette {
-      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, rgba(12,11,9,0.7) 100%),
-        linear-gradient(to bottom, rgba(12,11,9,0.2) 0%, transparent 30%, transparent 60%, rgba(12,11,9,0.9) 100%);
+        radial-gradient(ellipse 70% 55% at 50% 45%, transparent 20%, rgba(10,9,8,0.55) 100%),
+        linear-gradient(to bottom, rgba(10,9,8,0.3) 0%, transparent 25%, transparent 65%, rgba(10,9,8,1) 100%);
     }
+    /* Subtle african continent silhouette */
+    .hero-continent {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: 0.04;
+    }
+    .hero-continent svg { width: 55vh; height: 55vh; }
+
     .hero-content {
-      position: relative; z-index: 3; text-align: center;
+      position: relative; z-index: 2; text-align: center;
       padding: clamp(1rem, 4vw, 3rem);
-      width: 100%; max-width: min(900px, 90vw);
+      width: 100%; max-width: min(880px, 92vw);
     }
     .hero-eyebrow {
       font-size: clamp(9px, 1.5vw, 11px); letter-spacing: 4px;
@@ -232,31 +218,36 @@
     }
     .hero-title {
       font-family: var(--font-serif);
-      font-size: clamp(2rem, 6.5vw, 6.5rem);
-      font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
-      color: var(--text); margin-bottom: 2.5rem; opacity: 0;
+      font-size: clamp(2.2rem, 6.5vw, 6.5rem);
+      font-weight: 300; line-height: 1.06; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 2rem; opacity: 0;
     }
     .hero-title em {
       font-style: italic;
       background: var(--grad-text); background-size: 200%;
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shimmer 4s ease infinite;
+      animation: shimmer 5s ease infinite;
     }
-    @keyframes shimmer {
-      0%, 100% { background-position: 0% 50%; }
-      50%       { background-position: 100% 50%; }
+    @keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+    .hero-sub {
+      font-size: clamp(14px, 1.8vw, 17px); color: var(--muted);
+      max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7;
+      font-weight: 300; opacity: 0;
     }
     .hero-actions {
       display: flex; gap: 1rem; justify-content: center;
       flex-wrap: wrap; opacity: 0;
     }
 
+    /* ═══════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════ */
     .btn-primary {
-      padding: 0.875rem 2rem; background: var(--grad);
-      color: #fff; font-size: 13px; letter-spacing: 1.5px;
-      text-transform: uppercase; font-weight: 500; border-radius: 2px;
-      white-space: nowrap; position: relative; overflow: hidden;
+      padding: 0.9rem 2.2rem; background: var(--grad); color: #fff;
+      font-size: 12px; letter-spacing: 1.8px; text-transform: uppercase;
+      font-weight: 500; border-radius: 2px; white-space: nowrap;
+      position: relative; overflow: hidden;
       transition: transform 0.25s var(--spring), box-shadow 0.25s ease;
     }
     .btn-primary::after {
@@ -264,29 +255,27 @@
       background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
       opacity: 0; transition: opacity 0.2s;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(130,33,40,0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(130,33,40,0.45); }
     .btn-primary:hover::after { opacity: 1; }
-
     .btn-ghost {
-      padding: 0.875rem 2rem;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: var(--muted); font-size: 13px; letter-spacing: 1.5px;
-      text-transform: uppercase; font-weight: 400; border-radius: 2px;
-      white-space: nowrap;
+      padding: 0.9rem 2.2rem; border: 1px solid rgba(255,255,255,0.14);
+      color: var(--muted); font-size: 12px; letter-spacing: 1.8px;
+      text-transform: uppercase; font-weight: 400; border-radius: 2px; white-space: nowrap;
       transition: border-color 0.25s, color 0.25s, background 0.25s;
     }
     .btn-ghost:hover { border-color: var(--gold); color: var(--gold); background: rgba(203,172,109,0.05); }
 
+    /* Scroll cue */
     .hero-scroll-cue {
       position: absolute; bottom: 2.5rem; left: 50%;
-      transform: translateX(-50%); z-index: 3;
+      transform: translateX(-50%); z-index: 2;
       display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0;
     }
     .hero-scroll-cue span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
     .scroll-line {
-      width: 1px; height: 40px;
+      width: 1px; height: 44px;
       background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollLine 2s ease-in-out infinite;
+      animation: scrollLine 2.2s ease-in-out infinite;
     }
     @keyframes scrollLine {
       0%   { transform: scaleY(0); transform-origin: top;    opacity: 0; }
@@ -295,38 +284,106 @@
       100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
     }
 
-    /* ═══════════════════════════════
-       SHARED
-    ═══════════════════════════════ */
+    /* ═══════════════════════════════════
+       SHARED SECTION UTILS
+    ═══════════════════════════════════ */
     section { position: relative; z-index: 10; }
-    .reveal { opacity: 0; transform: translateY(30px); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 4rem); }
     .section-label {
       font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
       color: var(--gold); margin-bottom: 1rem; font-weight: 400;
     }
     .section-heading {
       font-family: var(--font-serif);
-      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      font-size: clamp(1.9rem, 4.5vw, 3.6rem);
       font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: var(--text);
     }
-
-    /* ═══════════════════════════════
-       IMPACT
-    ═══════════════════════════════ */
-    #our-impact {
-      padding: clamp(4rem, 10vw, 10rem) clamp(1.25rem, 5vw, 4rem);
-      background: linear-gradient(180deg, transparent 0%, var(--surface) 50%, var(--bg) 100%);
+    .section-sub {
+      font-size: 15px; color: var(--muted); line-height: 1.75;
+      font-weight: 300; max-width: 580px; margin-top: 1.25rem;
     }
-    .impact-header { text-align: center; margin-bottom: 3rem; }
+    .reveal { opacity: 0; transform: translateY(28px); }
+    hr.section-rule {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0; width: 100%;
+    }
+
+    /* ═══════════════════════════════════
+       MISSION / CONTEXT  (#mission)
+    ═══════════════════════════════════ */
+    #mission {
+      padding: clamp(5rem, 11vw, 11rem) 0;
+      background: linear-gradient(180deg, transparent 0%, var(--surface) 60%);
+    }
+    .mission-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .mission-stat-row {
+      display: flex; flex-direction: column; gap: 2.5rem; margin-top: 3rem;
+    }
+    .mission-stat {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      padding-bottom: 2.5rem; border-bottom: 1px solid var(--border);
+    }
+    .mission-stat:last-child { border-bottom: none; padding-bottom: 0; }
+    .mission-stat-num {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1; letter-spacing: -0.03em;
+      flex-shrink: 0; min-width: 110px;
+    }
+    .mission-stat-num.gold { color: var(--gold); }
+    .mission-stat-num.crimson {
+      background: var(--grad-text); background-size: 200%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .mission-stat-text strong {
+      display: block; font-size: 14px; font-weight: 500;
+      color: var(--text); letter-spacing: 0.5px; margin-bottom: 4px;
+    }
+    .mission-stat-text p { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .mission-right {
+      padding: 3rem; background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 2px; position: relative; overflow: hidden;
+    }
+    .mission-right::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--grad);
+    }
+    .mission-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+      font-weight: 300; line-height: 1.45; letter-spacing: -0.01em;
+      color: var(--text); margin-bottom: 2rem;
+    }
+    .mission-quote em { font-style: italic; color: var(--gold); }
+    .mission-body {
+      font-size: 14px; color: var(--muted); line-height: 1.8;
+      font-weight: 300; margin-bottom: 2rem;
+    }
+    .mission-tag {
+      display: inline-block; padding: 6px 14px;
+      border: 1px solid var(--border-2); border-radius: 1px;
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); font-weight: 400;
+    }
+
+    /* ═══════════════════════════════════
+       IMPACT NUMBERS  (#our-impact)
+    ═══════════════════════════════════ */
+    #our-impact {
+      padding: clamp(4rem, 9vw, 9rem) 0;
+      background: var(--surface);
+    }
+    .impact-header { text-align: center; margin-bottom: 3.5rem; }
     .impact-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-      gap: 1.5px; max-width: 1100px; margin: 0 auto;
-      background: var(--border); border: 1px solid var(--border);
+      grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
     }
     .impact-card {
-      background: var(--surface);
-      padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+      background: var(--surface); padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
       position: relative; overflow: hidden; transition: background 0.3s;
     }
     .impact-card::before {
@@ -338,27 +395,149 @@
     .impact-card:hover::before { transform: scaleX(1); }
     .impact-number {
       font-family: var(--font-serif);
-      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
-      font-weight: 300; letter-spacing: -0.03em; margin-bottom: 0.5rem; line-height: 1;
+      font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+      font-weight: 300; letter-spacing: -0.03em; margin-bottom: 0.4rem; line-height: 1;
     }
     .impact-number span {
       background: var(--grad-text); background-size: 200%;
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
     .impact-card h3 {
-      font-size: 13px; font-weight: 500; letter-spacing: 1px;
+      font-size: 12px; font-weight: 500; letter-spacing: 1.2px;
       text-transform: uppercase; color: var(--muted); margin-bottom: 0.875rem;
     }
     .impact-card p { font-size: 14px; line-height: 1.7; color: var(--muted); font-weight: 300; }
     .impact-card p a { color: var(--gold); border-bottom: 1px solid transparent; transition: border-color 0.2s; }
     .impact-card p a:hover { border-color: var(--gold); }
 
-    /* ═══════════════════════════════
-       TEAM
-    ═══════════════════════════════ */
-    #our-team { padding: clamp(4rem, 10vw, 10rem) 0; }
-    .team-header { text-align: center; margin-bottom: 3rem; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+    /* ═══════════════════════════════════
+       PROGRAM PHASES  (#program)
+    ═══════════════════════════════════ */
+    #program {
+      padding: clamp(5rem, 11vw, 11rem) 0;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+    }
+    .program-header { margin-bottom: 5rem; }
+    .phases-wrap {
+      position: relative;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    /* Vertical spine */
+    .phases-wrap::before {
+      content: ''; position: absolute;
+      left: 28px; top: 28px; bottom: 28px; width: 1px;
+      background: linear-gradient(to bottom, var(--crimson), var(--gold));
+      z-index: 0;
+    }
+    .phase-item {
+      display: grid; grid-template-columns: 60px 1fr;
+      gap: 2.5rem; padding: 0 0 4rem 0; position: relative;
+    }
+    .phase-item:last-child { padding-bottom: 0; }
+    .phase-dot-col {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .phase-dot {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 1px solid var(--border-2);
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .phase-item:hover .phase-dot {
+      border-color: var(--gold); background: var(--surface-2);
+    }
+    .phase-num {
+      font-family: var(--font-serif); font-size: 1.3rem;
+      font-weight: 300; color: var(--gold); letter-spacing: -0.02em;
+    }
+    .phase-body {
+      padding: 0.5rem 0 0;
+    }
+    .phase-tag {
+      display: inline-block; padding: 3px 12px; margin-bottom: 1rem;
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      border: 1px solid var(--border); border-radius: 1px; color: var(--muted);
+    }
+    .phase-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300; letter-spacing: -0.02em; color: var(--text);
+      margin-bottom: 1rem; line-height: 1.2;
+    }
+    .phase-desc {
+      font-size: 14px; color: var(--muted); line-height: 1.8;
+      font-weight: 300; max-width: 620px; margin-bottom: 1.5rem;
+    }
+    .phase-topics {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem;
+    }
+    .phase-topic {
+      padding: 5px 13px; border: 1px solid var(--border); border-radius: 1px;
+      font-size: 12px; color: var(--muted); letter-spacing: 0.3px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .phase-item:hover .phase-topic { border-color: rgba(203,172,109,0.25); color: var(--gold-dk); }
 
+    /* ═══════════════════════════════════
+       PROOF / CREDIBILITY  (#proof)
+    ═══════════════════════════════════ */
+    #proof {
+      padding: clamp(4rem, 9vw, 9rem) 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .proof-header { text-align: center; margin-bottom: 4rem; }
+    .proof-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; background: var(--border);
+    }
+    .proof-card {
+      background: var(--surface);
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.75rem, 3.5vw, 3rem);
+      position: relative; overflow: hidden;
+    }
+    .proof-card.featured {
+      background: var(--surface-2);
+      grid-column: 1 / -1;
+    }
+    .proof-card-label {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--crimson); margin-bottom: 1.5rem; font-weight: 400;
+    }
+    .proof-card-label.gold-label { color: var(--gold); }
+    .proof-big {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 300; letter-spacing: -0.04em; line-height: 1;
+      color: var(--text); margin-bottom: 0.75rem;
+    }
+    .proof-big span {
+      background: var(--grad-text); background-size: 200%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .proof-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+    /* ALA badge on featured card */
+    .ala-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 2rem; padding: 10px 18px;
+      border: 1px solid var(--border-2); border-radius: 2px;
+    }
+    .ala-badge img { height: 24px; filter: brightness(0) invert(1); opacity: 0.7; }
+    .ala-badge span { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+    /* Proof featured layout */
+    .proof-featured-inner {
+      display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center;
+    }
+    .proof-featured-stat { flex-shrink: 0; }
+
+    /* ═══════════════════════════════════
+       TEAM  (#our-team)
+    ═══════════════════════════════════ */
+    #our-team { padding: clamp(4rem, 10vw, 10rem) 0; background: var(--bg); }
+    .team-header { text-align: center; margin-bottom: 3rem; padding: 0 clamp(1.25rem, 5vw, 4rem); }
     .team-carousel-wrap { position: relative; overflow: hidden; }
     .team-carousel-wrap::before,
     .team-carousel-wrap::after {
@@ -367,7 +546,6 @@
     }
     .team-carousel-wrap::before { left: 0;  background: linear-gradient(to right, var(--bg), transparent); }
     .team-carousel-wrap::after  { right: 0; background: linear-gradient(to left,  var(--bg), transparent); }
-
     .team-track {
       display: flex; gap: 1.25rem;
       padding: 1.5rem clamp(2rem, 5vw, 4rem);
@@ -376,32 +554,29 @@
     .team-card {
       width: clamp(200px, 30vw, 260px); flex: 0 0 clamp(200px, 30vw, 260px);
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 4px; overflow: hidden; position: relative;
+      border-radius: 3px; overflow: hidden; position: relative;
       transition: border-color 0.3s, transform 0.3s;
     }
     .team-card::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
       background: var(--grad); transform: scaleX(0); transition: transform 0.4s var(--ease);
     }
-    .team-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-4px); }
+    .team-card:hover { border-color: rgba(255,255,255,0.13); transform: translateY(-4px); }
     .team-card:hover::after { transform: scaleX(1); }
-
     .team-img-wrap { width: 100%; height: 210px; overflow: hidden; }
     .team-img-wrap img {
       width: 100%; height: 100%; object-fit: cover; object-position: top center;
-      filter: grayscale(20%); transition: filter 0.4s, transform 0.4s;
+      filter: grayscale(25%); transition: filter 0.4s, transform 0.4s;
     }
-    .team-card:hover .team-img-wrap img { filter: grayscale(0%); transform: scale(1.03); }
-
+    .team-card:hover .team-img-wrap img { filter: grayscale(0%); transform: scale(1.04); }
     .team-card-body { padding: 1.1rem 1.25rem 1.4rem; }
     .team-card-body h2 { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
     .team-card-body .role { font-size: 12px; color: var(--gold); letter-spacing: 0.3px; margin-bottom: 4px; }
     .team-card-body .country { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
     .country::before { content: ''; width: 4px; height: 4px; background: var(--faint); border-radius: 50%; flex-shrink: 0; }
-
     .team-nav {
       display: flex; justify-content: center; align-items: center;
-      gap: 1.5rem; margin-top: 2rem; padding: 0 clamp(1.25rem, 5vw, 4rem); flex-wrap: wrap;
+      gap: 1.5rem; margin-top: 2rem; flex-wrap: wrap;
     }
     .team-nav-btn {
       width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%;
@@ -417,9 +592,9 @@
     }
     .team-dot.active { background: var(--gold); width: 40px; }
 
-    /* ═══════════════════════════════
-       PARTNERS
-    ═══════════════════════════════ */
+    /* ═══════════════════════════════════
+       PARTNERS  (#our-partners)
+    ═══════════════════════════════════ */
     #our-partners {
       padding: clamp(3rem, 7vw, 7rem) 0;
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -438,24 +613,89 @@
     .partners-track-wrap::before { left: 0;  background: linear-gradient(to right, var(--surface), transparent); }
     .partners-track-wrap::after  { right: 0; background: linear-gradient(to left,  var(--surface), transparent); }
     .partners-track {
-      display: flex; align-items: center;
-      width: max-content; animation: scrollPartners 25s linear infinite;
+      display: flex; align-items: center; width: max-content;
+      animation: scrollPartners 28s linear infinite;
     }
     .partners-track:hover { animation-play-state: paused; }
-    @keyframes scrollPartners {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    @keyframes scrollPartners { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
     .partners-track img {
       height: clamp(32px, 5vw, 52px); width: auto; flex-shrink: 0;
-      filter: brightness(0) invert(1); opacity: 0.3;
+      filter: brightness(0) invert(1); opacity: 0.25;
       margin: 0 clamp(1.25rem, 3.5vw, 3rem); transition: opacity 0.3s;
     }
-    .partners-track img:hover { opacity: 0.7; }
+    .partners-track img:hover { opacity: 0.65; }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
+       APPLY  (#apply)
+    ═══════════════════════════════════ */
+    #apply {
+      padding: clamp(5rem, 11vw, 11rem) 0;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+    }
+    .apply-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .apply-left .section-heading { margin-bottom: 1.25rem; }
+    .apply-left .section-sub { margin-bottom: 2.5rem; }
+    .eligibility-list {
+      display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem;
+    }
+    .eligibility-item {
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      padding: 1.25rem 1.5rem; border: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .eligibility-item:hover { border-color: var(--border-2); }
+    .eligibility-icon {
+      width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%;
+      background: rgba(203,172,109,0.1); border: 1px solid rgba(203,172,109,0.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .eligibility-icon svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 1.8; stroke-linecap: round; }
+    .eligibility-item strong {
+      display: block; font-size: 13px; font-weight: 500;
+      color: var(--text); margin-bottom: 3px; letter-spacing: 0.2px;
+    }
+    .eligibility-item p { font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+    .apply-note {
+      padding: 1.25rem 1.5rem; border-left: 2px solid var(--crimson);
+      background: rgba(130,33,40,0.08); margin-bottom: 2.5rem;
+    }
+    .apply-note p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .apply-note strong { color: var(--text); font-weight: 500; }
+    /* Right column: CTA card */
+    .apply-cta-card {
+      padding: clamp(2rem, 4vw, 3rem);
+      border: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .apply-cta-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--grad);
+    }
+    .apply-cta-card h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 300; color: var(--text); margin-bottom: 1rem; letter-spacing: -0.01em;
+    }
+    .apply-cta-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; }
+    .apply-details {
+      display: flex; flex-direction: column; gap: 0;
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--border);
+    }
+    .apply-detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.9rem 1.25rem; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .apply-detail-row:last-child { border-bottom: none; }
+    .apply-detail-row span:first-child { color: var(--muted); }
+    .apply-detail-row span:last-child { color: var(--text); font-weight: 400; }
+    .apply-detail-row .gold { color: var(--gold); }
+
+    /* ═══════════════════════════════════
        FOOTER
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     footer {
       position: relative; background: var(--bg);
       padding: clamp(4rem, 10vw, 9rem) clamp(1.25rem, 5vw, 4rem) 3rem; overflow: hidden;
@@ -463,11 +703,11 @@
     footer::before {
       content: ''; position: absolute; bottom: -50%; left: 50%; transform: translateX(-50%);
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(130,33,40,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(130,33,40,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
-    .footer-inner { max-width: 1200px; margin: 0 auto; }
-    .footer-cta-block { margin-bottom: 4rem; text-align: center; }
+    .footer-inner { max-width: var(--max-w); margin: 0 auto; }
+    .footer-cta-block { margin-bottom: 4.5rem; text-align: center; }
     .footer-cta-label {
       font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
       color: var(--faint); margin-bottom: 1.25rem;
@@ -476,90 +716,125 @@
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 5.5vw, 5rem);
       font-weight: 300; color: var(--faint); letter-spacing: -0.02em;
-      position: relative; display: inline-block; transition: color 0.5s;
-      word-break: break-all;
+      position: relative; display: inline-block; transition: color 0.5s; word-break: break-all;
     }
     .footer-email-link::after {
       content: attr(data-text); position: absolute; inset: 0;
       background: var(--grad-text); background-size: 200%;
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-      opacity: 0; transition: opacity 0.5s; animation: shimmer 4s ease infinite;
+      opacity: 0; transition: opacity 0.5s; animation: shimmer 5s ease infinite;
     }
     .footer-email-link:hover::after { opacity: 1; }
     .footer-bottom {
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1.5rem; border-top: 1px solid var(--border); padding-top: 2rem;
+      flex-wrap: wrap; gap: 1.5rem;
+      border-top: 1px solid var(--border); padding-top: 2rem;
     }
     .footer-bottom-left { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
-    .footer-logo img { height: 26px; opacity: 0.5; filter: brightness(0) invert(1); }
+    .footer-logo img { height: 26px; opacity: 0.45; filter: brightness(0) invert(1); }
     .footer-tagline { font-size: 12px; color: var(--faint); }
     .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
     .footer-links a { font-size: 12px; color: var(--faint); transition: color 0.2s; }
     .footer-links a:hover { color: var(--muted); }
     .footer-address { font-size: 12px; color: var(--faint); text-align: right; }
 
-    /* ═══════════════════════════════
+    /* ═══════════════════════════════════
        RESPONSIVE
-    ═══════════════════════════════ */
+    ═══════════════════════════════════ */
     @media (max-width: 900px) {
       .nav-cta { display: none; }
+      .mission-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .proof-card.featured { grid-column: 1; }
+      .proof-featured-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .apply-layout { grid-template-columns: 1fr; gap: 3rem; }
       .footer-address { text-align: left; }
     }
-
     @media (max-width: 600px) {
       :root { --nav-h: 60px; }
-
       nav { padding: 0 1.25rem; }
       .nav-logo img { height: 28px; }
       .nav-label { display: none; }
-
       .menu-overlay { padding: calc(var(--nav-h) + 1.5rem) 1.5rem 3rem; }
       .menu-nav-list li a { font-size: clamp(2.2rem, 10vw, 3.5rem); }
       .menu-footer { flex-direction: column; gap: 1rem; }
-
       #hero { min-height: 100svh; }
-      .hero-title { font-size: clamp(1.75rem, 7.5vw, 2.5rem); }
+      .hero-title { font-size: clamp(1.9rem, 7.5vw, 2.6rem); }
       .hero-eyebrow { font-size: 9px; letter-spacing: 3px; }
       .hero-actions { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-ghost { width: 100%; max-width: 280px; text-align: center; justify-content: center; display: flex; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 280px; text-align: center; display: flex; justify-content: center; }
       .hero-scroll-cue { display: none; }
-
-      #our-impact { padding: 3.5rem 1.25rem; }
-      .impact-grid { grid-template-columns: 1fr; }
-      .impact-card { padding: 1.75rem 1.5rem; }
-
-      #our-team { padding: 3.5rem 0; }
+      .phases-wrap::before { left: 22px; }
+      .phase-item { grid-template-columns: 48px 1fr; gap: 1.5rem; }
+      .phase-dot { width: 44px; height: 44px; }
       .team-card { width: calc(85vw - 1rem); flex: 0 0 calc(85vw - 1rem); }
       .team-track { gap: 1rem; padding: 1rem 1.25rem; }
       .team-img-wrap { height: 180px; }
-
       footer { padding: 3.5rem 1.25rem 2.5rem; }
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
       .footer-address { text-align: left; }
       .footer-links { gap: 1rem; }
       .footer-bottom-left { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
     }
-
     @media (max-width: 360px) {
-      .hero-title { font-size: 1.6rem; }
-      .btn-primary, .btn-ghost { font-size: 11px; padding: 0.75rem 1.25rem; }
+      .hero-title { font-size: 1.7rem; }
     }
+
+    /* ═══════════════════════════════════
+       SOCIAL ICONS
+    ═══════════════════════════════════ */
+    .social-links {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .social-link {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .social-link:hover {
+      border-color: var(--gold); color: var(--gold);
+      background: rgba(203,172,109,0.07);
+    }
+    .social-link svg {
+      width: 15px; height: 15px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    }
+    /* Larger version used in the fullscreen menu */
+    .menu-social-links {
+      display: flex; align-items: center; gap: 1.25rem; margin-top: 2rem;
+    }
+    .menu-social-link {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--faint); transition: color 0.2s;
+    }
+    .menu-social-link svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .menu-social-link:hover { color: var(--text); }
   </style>
 </head>
 <body>
 
 <div class="noise" aria-hidden="true"></div>
-<canvas id="particle-canvas" aria-hidden="true"></canvas>
+<canvas id="star-canvas" aria-hidden="true"></canvas>
 
-<!-- MENU -->
-<div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Site navigation">
+<!-- ── MENU ─────────────────────────────────────── -->
+<div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Navigation">
   <ul class="menu-nav-list">
-    <li><a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener">Apply</a></li>
-    <li><a href="https://arpl.notion.site/ARPL-February-Handbook-2123a2790a474bcebc8984bc15c63d21" target="_blank" rel="noopener">Our Impact</a></li>
-    <li><a href="#our-team">About Us</a></li>
+    <li><a href="#mission">Our Mission</a></li>
+    <li><a href="#program">The Program</a></li>
+    <li><a href="#proof">Track Record</a></li>
+    <li><a href="#our-team">Our Team</a></li>
+    <li><a href="#apply">Apply</a></li>
   </ul>
   <div class="menu-footer">
-    <div class="menu-footer-item">The First Exclusive Research<br>Program for Africans</div>
+    <div class="menu-footer-item">Research training for<br>African secondary school students</div>
     <div class="menu-footer-item"><a href="mailto:team@arpl.foundation">team@arpl.foundation</a></div>
     <div class="menu-footer-item"><a href="tel:+27815270763">+27 081 527 0763</a></div>
     <div class="menu-footer-item">
@@ -568,9 +843,19 @@
       </a>
     </div>
   </div>
+  <div class="menu-social-links">
+    <a href="https://www.instagram.com/arpl_team/" target="_blank" rel="noopener" class="menu-social-link" aria-label="ARPL on Instagram">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+      Instagram
+    </a>
+    <a href="https://www.linkedin.com/company/african-research-program-for-leaders/" target="_blank" rel="noopener" class="menu-social-link" aria-label="ARPL on LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+  </div>
 </div>
 
-<!-- NAV -->
+<!-- ── NAV ──────────────────────────────────────── -->
 <nav id="main-nav" aria-label="Main navigation">
   <div class="nav-inner">
     <button class="nav-menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuOverlay">
@@ -580,24 +865,36 @@
     <a href="/" class="nav-logo" aria-label="ARPL home">
       <img src="imgs/ARPL-cropped.svg" alt="ARPL" width="120" height="36">
     </a>
-    <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="nav-cta">Apply Now</a>
+    <a href="#apply" class="nav-cta">Apply Now</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ── HERO ─────────────────────────────────────── -->
 <section id="hero" aria-label="Hero">
-  <div class="hero-3d" aria-hidden="true"><canvas id="canvas3d"></canvas></div>
+  <!-- African continent silhouette -->
+  <div class="hero-continent" aria-hidden="true">
+    <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 8 C85 8 68 14 58 24 C44 38 36 56 32 74 C28 90 28 106 30 120 C32 138 36 152 38 166 C40 180 38 192 44 204 C50 216 62 226 76 232 C88 236 100 234 108 228 C120 220 128 208 134 194 C140 180 142 164 148 150 C154 136 162 124 164 110 C168 94 166 76 158 62 C150 48 138 34 124 22 C114 14 108 8 100 8 Z" fill="white"/>
+      <!-- horn of africa -->
+      <path d="M148 150 C154 136 162 120 170 110 C176 102 180 96 176 90 C172 84 164 86 158 92 C152 98 148 108 148 120 Z" fill="white"/>
+    </svg>
+  </div>
   <div class="hero-vignette" aria-hidden="true"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow" id="heroEyebrow">Est. 2024 · Pan-African</p>
+    <p class="hero-eyebrow" id="heroEyebrow">Est. 2023 · Pan-African</p>
     <h1 class="hero-title" id="heroTitle">
       Developing the Next<br>
       Generation of <em>African</em><br>
       Researchers.
     </h1>
+    <p class="hero-sub" id="heroSub">
+      Africa accounts for 17% of the world's population and carries 25% of its disease burden,
+      yet contributes just 1% of global research output. ARPL was built to close that gap,
+      starting at the secondary school level.
+    </p>
     <div class="hero-actions" id="heroActions">
-      <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="btn-primary">Be a Scholar</a>
-      <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost">Access Handbook</a>
+      <a href="#apply" class="btn-primary">Be a Scholar</a>
+      <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost">Read the Handbook</a>
     </div>
   </div>
   <div class="hero-scroll-cue" id="scrollCue" aria-hidden="true">
@@ -606,32 +903,236 @@
   </div>
 </section>
 
-<!-- IMPACT -->
-<section id="our-impact" aria-labelledby="impactHeading">
-  <div class="impact-header reveal">
-    <p class="section-label">By the Numbers</p>
-    <h2 class="section-heading" id="impactHeading">What We've Built</h2>
-  </div>
-  <div class="impact-grid">
-    <article class="impact-card reveal">
-      <div class="impact-number"><span>51K</span></div>
-      <h3>Words of Curriculum</h3>
-      <p>Our graduate-level <a href="https://spectrum-iguanodon-a2e.notion.site/Actual-Curriculum-1-9ac970cc4f0d452291fc333c8d6b59c9?pvs=4" target="_blank" rel="noopener">curriculum</a> is beginner-friendly and has been translated into 5 languages to ensure accessibility across Africa.</p>
-    </article>
-    <article class="impact-card reveal">
-      <div class="impact-number"><span>$1,000</span></div>
-      <h3>USD Raised</h3>
-      <p>Within weeks of commencing work, $1K was raised by people who saw the potential in ARPL — proof of concept in action.</p>
-    </article>
-    <article class="impact-card reveal">
-      <div class="impact-number"><span>9</span></div>
-      <h3>African Countries</h3>
-      <p>From 9 African countries, our team came together to bring ARPL to reality — a truly pan-African collaboration.</p>
-    </article>
+<!-- ── MISSION ───────────────────────────────────── -->
+<section id="mission" aria-labelledby="missionHeading">
+  <div class="section-inner">
+    <div class="mission-layout">
+
+      <div class="reveal">
+        <p class="section-label">The Problem</p>
+        <h2 class="section-heading" id="missionHeading">Where the numbers sit</h2>
+        <div class="mission-stat-row">
+          <div class="mission-stat">
+            <div class="mission-stat-num gold">17%</div>
+            <div class="mission-stat-text">
+              <strong>of the world's population</strong>
+              <p>Africa is home to over 1.4 billion people, with one of the youngest and fastest-growing populations on earth.</p>
+            </div>
+          </div>
+          <div class="mission-stat">
+            <div class="mission-stat-num gold">25%</div>
+            <div class="mission-stat-text">
+              <strong>of the global disease burden</strong>
+              <p>African communities carry a disproportionate share of the world's health challenges, many of which remain understudied.</p>
+            </div>
+          </div>
+          <div class="mission-stat">
+            <div class="mission-stat-num crimson">1%</div>
+            <div class="mission-stat-text">
+              <strong>of global research output</strong>
+              <p>Africa produces less than one percent of peer-reviewed research published globally, despite the scale of what it faces.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mission-right reveal">
+        <blockquote class="mission-quote">
+          "Africa's problems deserve <em>African</em> researchers working on them."
+        </blockquote>
+        <p class="mission-body">
+          ARPL was started on a specific observation: the pipeline that would produce African researchers at scale
+          does not exist at the secondary school level. Graduate programs are too late, and most academic research
+          training assumes students who are already at university. ARPL works backwards from that gap, taking students
+          through the same process a graduate researcher would follow and guiding them to peer-reviewed publication
+          before they ever leave school.
+        </p>
+        <p class="mission-body">
+          The result is a published paper with the scholar's name on it. That is the only outcome we measure against.
+        </p>
+        <span class="mission-tag">African Leadership Academy · Roodepoort, South Africa</span>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- TEAM -->
+<!-- ── NUMBERS ───────────────────────────────────── -->
+<section id="our-impact" aria-labelledby="impactHeading">
+  <div class="section-inner">
+    <div class="impact-header reveal">
+      <p class="section-label">By the Numbers</p>
+      <h2 class="section-heading" id="impactHeading">Where things stand</h2>
+    </div>
+    <div class="impact-grid">
+      <article class="impact-card reveal">
+        <div class="impact-number"><span>51K</span></div>
+        <h3>Words of curriculum</h3>
+        <p>The <a href="https://spectrum-iguanodon-a2e.notion.site/Actual-Curriculum-1-9ac970cc4f0d452291fc333c8d6b59c9?pvs=4" target="_blank" rel="noopener">curriculum</a> covers research theory, methodology, data analysis, and academic writing across 36 modules. It was written to be accessible to students with no prior research training and has been translated into 5 languages.</p>
+      </article>
+      <article class="impact-card reveal">
+        <div class="impact-number"><span>$1,800</span></div>
+        <h3>USD raised</h3>
+        <p>Raised within weeks of launch, before a single paper had been published. The funding came from people who saw what ARPL was trying to do and decided it was worth backing early.</p>
+      </article>
+      <article class="impact-card reveal">
+        <div class="impact-number"><span>9</span></div>
+        <h3>African countries</h3>
+        <p>The founding team comes from 9 countries across the continent. That geographic spread is deliberate. ARPL was built to serve all of Africa, and the people building it reflect that.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROGRAM PHASES ────────────────────────────── -->
+<section id="program" aria-labelledby="programHeading">
+  <div class="section-inner">
+    <div class="program-header reveal">
+      <p class="section-label">How it works</p>
+      <h2 class="section-heading" id="programHeading">From student to published researcher,<br>across one academic year</h2>
+      <p class="section-sub">Every ARPL scholar follows the same structured sequence. The program does not compress or skip steps. Each phase builds directly on the one before it, and the work done in each phase is real.</p>
+    </div>
+    <div class="phases-wrap">
+
+      <div class="phase-item reveal">
+        <div class="phase-dot-col">
+          <div class="phase-dot"><span class="phase-num">I</span></div>
+        </div>
+        <div class="phase-body">
+          <span class="phase-tag">Phase One · Nov – Dec</span>
+          <h3 class="phase-title">Curriculum Mastery</h3>
+          <p class="phase-desc">
+            Scholars spend the first two months working through 36 structured modules before producing any original research.
+            The curriculum covers the theoretical groundwork that serious research requires: how knowledge is produced,
+            what distinguishes different research paradigms, where bias enters the process, and how to read and evaluate
+            existing literature. The phase ends with a comprehensive assessment across all modules, which scholars must
+            pass before advancing.
+          </p>
+          <div class="phase-topics">
+            <span class="phase-topic">Philosophy of research</span>
+            <span class="phase-topic">Research paradigms &amp; types</span>
+            <span class="phase-topic">Systematic review</span>
+            <span class="phase-topic">Epistemology &amp; ontology</span>
+            <span class="phase-topic">Types of bias</span>
+            <span class="phase-topic">Quantitative methods</span>
+            <span class="phase-topic">Qualitative methods</span>
+            <span class="phase-topic">Data analysis</span>
+            <span class="phase-topic">Research ethics</span>
+            <span class="phase-topic">Academic writing fundamentals</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item reveal">
+        <div class="phase-dot-col">
+          <div class="phase-dot"><span class="phase-num">II</span></div>
+        </div>
+        <div class="phase-body">
+          <span class="phase-tag">Phase Two · Dec – Mar</span>
+          <h3 class="phase-title">Research Development</h3>
+          <p class="phase-desc">
+            This is where scholars do the actual research. Each scholar is assigned a mentor and meets weekly in
+            one-on-one sessions throughout the phase. The work follows the same sequence as a real academic paper:
+            identifying and refining a research question, conducting a literature review, designing and executing a
+            methodology, then writing up results and discussion. By the end of March, each scholar has a complete
+            manuscript that goes to the ARPL board for internal review before entering peer review.
+          </p>
+          <div class="phase-topics">
+            <span class="phase-topic">Research question development</span>
+            <span class="phase-topic">Scoping &amp; literature review</span>
+            <span class="phase-topic">Hypothesis formation</span>
+            <span class="phase-topic">Methodology design</span>
+            <span class="phase-topic">Data collection &amp; analysis</span>
+            <span class="phase-topic">Results interpretation</span>
+            <span class="phase-topic">Discussion &amp; conclusions</span>
+            <span class="phase-topic">Manuscript drafting</span>
+            <span class="phase-topic">Board review</span>
+            <span class="phase-topic">Peer review process</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item reveal">
+        <div class="phase-dot-col">
+          <div class="phase-dot"><span class="phase-num">III</span></div>
+        </div>
+        <div class="phase-body">
+          <span class="phase-tag">Phase Three · Mar – Jun</span>
+          <h3 class="phase-title">Publication</h3>
+          <p class="phase-desc">
+            A completed manuscript is a draft. Phase Three is the process of getting it to the standard that academic
+            journals require. Scholars revise based on reviewer feedback, select appropriate journals, format to submission
+            guidelines, and submit. They also present their work at the ARPL Research Fair, which runs as a
+            conference-style event where scholars defend and discuss their findings in front of an audience. The target
+            by June is full journal submission for every scholar in the cohort.
+          </p>
+          <div class="phase-topics">
+            <span class="phase-topic">Manuscript revision</span>
+            <span class="phase-topic">Reviewer response</span>
+            <span class="phase-topic">Journal selection</span>
+            <span class="phase-topic">Submission formatting</span>
+            <span class="phase-topic">Journal submission</span>
+            <span class="phase-topic">Research Fair presentation</span>
+            <span class="phase-topic">Academic communication</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROOF / CREDIBILITY ───────────────────────── -->
+<section id="proof" aria-labelledby="proofHeading">
+  <div class="section-inner">
+    <div class="proof-header reveal">
+      <p class="section-label">Track Record</p>
+      <h2 class="section-heading" id="proofHeading">Season 1 ended with every scholar published.<br>Season 2 has 28.</h2>
+    </div>
+    <div class="proof-grid">
+
+      <div class="proof-card reveal">
+        <p class="proof-card-label">Season 1 · Cohort One</p>
+        <div class="proof-big"><span>100%</span></div>
+        <p class="proof-desc">Every scholar who completed Season 1 submitted a manuscript for peer-reviewed publication. Most graduate research programs, with far more resources and time, do not reach that rate.</p>
+      </div>
+
+      <div class="proof-card reveal">
+        <p class="proof-card-label">Season 1 · Scholars</p>
+        <div class="proof-big"><span>4 / 4</span></div>
+        <p class="proof-desc">Four scholars entered. Four manuscripts were submitted. The program worked on the first attempt, at full completion rate, and that is what Season 2 was built on.</p>
+      </div>
+
+      <div class="proof-card featured reveal">
+        <div class="proof-featured-inner">
+          <div class="proof-featured-stat">
+            <p class="proof-card-label gold-label">Season 2 · Now</p>
+            <div class="proof-big"><span>28</span></div>
+            <p class="proof-desc" style="max-width:280px">Scholars currently enrolled, up from 4 in a single cycle.</p>
+          </div>
+          <div>
+            <p class="proof-desc" style="margin-bottom:1.5rem">
+              ARPL is now an officially recognised learning experience at the African Leadership Academy, with
+              Canvas and PowerSchool integration, faculty advisor support, and full institutional backing.
+              Season 2 scholars are Year 1 and Year 2 students drawn from across the continent, each working
+              with a dedicated research mentor who has prior publishing experience.
+            </p>
+            <p class="proof-desc">
+              The Season 2 target is the same as Season 1: 100% manuscript submission by June 2026.
+            </p>
+            <div class="ala-badge">
+              <img src="imgs/ala.png" alt="ALA">
+              <span>Official learning experience at the African Leadership Academy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ──────────────────────────────────────── -->
 <section id="our-team" aria-labelledby="teamHeading">
   <div class="team-header reveal">
     <p class="section-label">The People</p>
@@ -649,16 +1150,16 @@
       <div class="team-card"><div class="team-img-wrap"><img src="https://photos.smugmug.com/ALA-Student-Headshots/Class-of-2024-Headshots/i-Wv5ChjK/0/M9BNJmhQJpdZ8vTH3gWHWqpXzPB8g4mX4BH5mr7w8/X2/Yassir%20Ahjiba-X2.jpg" alt="Yassir Ahjiba" loading="lazy"></div><div class="team-card-body"><h2>Yassir Ahjiba</h2><p class="role">Co-Chief Logistics Officer</p><p class="country">Morocco</p></div></div>
     </div>
   </div>
-  <div class="team-nav" aria-label="Team carousel navigation">
+  <div class="team-nav">
     <button class="team-nav-btn" id="teamPrev" aria-label="Previous">&#8592;</button>
-    <div class="team-dots" id="teamDots" role="tablist" aria-label="Team pages"></div>
+    <div class="team-dots" id="teamDots" role="tablist"></div>
     <button class="team-nav-btn" id="teamNext" aria-label="Next">&#8594;</button>
   </div>
 </section>
 
-<!-- PARTNERS -->
+<!-- ── PARTNERS ───────────────────────────────────── -->
 <section id="our-partners" aria-label="Our Partners">
-  <p class="partners-label">Trusted Partners</p>
+  <p class="partners-label">Partners &amp; Supporters</p>
   <div class="partners-track-wrap">
     <div class="partners-track" aria-hidden="true">
       <img src="imgs/Ebhath.png" alt="Ebhath"><img src="imgs/BTG.png" alt="BTG">
@@ -671,7 +1172,80 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── APPLY ─────────────────────────────────────── -->
+<section id="apply" aria-labelledby="applyHeading">
+  <div class="section-inner">
+    <div class="apply-layout">
+
+      <div>
+        <p class="section-label reveal">Applications</p>
+        <h2 class="section-heading reveal" id="applyHeading">Who can apply, and what the program asks of you</h2>
+        <p class="section-sub reveal" style="margin-bottom:3rem">Scholars are selected through a written application followed by a Finalist Day assessment. The process is competitive, and the program is intentionally small.</p>
+
+        <div class="apply-note reveal">
+          <p>Season 2 is currently underway. At this stage, ARPL is open to students enrolled at the African Leadership Academy only. Applications for Season 3, which will extend to a wider group of African secondary school students, will open later in 2026.</p>
+        </div>
+
+        <div class="eligibility-list">
+          <div class="eligibility-item reveal">
+            <div class="eligibility-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <strong>ALA enrollment (Season 2 requirement)</strong>
+              <p>You must be a Year 1 or Year 2 student at the African Leadership Academy to be eligible for the current cohort.</p>
+            </div>
+          </div>
+          <div class="eligibility-item reveal">
+            <div class="eligibility-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <strong>12 to 15 hours per month</strong>
+              <p>The program runs on bi-weekly seminars and weekly one-on-one mentor sessions. Attendance is mandatory. Scholars who cannot commit to this should not apply.</p>
+            </div>
+          </div>
+          <div class="eligibility-item reveal">
+            <div class="eligibility-icon">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <strong>Open to any field</strong>
+              <p>Research methodology is not discipline-specific. Scholars have worked across the sciences, humanities, and social sciences. The skills transfer regardless of subject area.</p>
+            </div>
+          </div>
+          <div class="eligibility-item reveal">
+            <div class="eligibility-icon">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <strong>Willingness to do the work</strong>
+              <p>Prior research experience is not required. Scholars are selected on academic seriousness and the capacity to follow through on a long-form project, not on credentials.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="apply-cta-card reveal">
+        <h3>How to apply</h3>
+        <p>Submit the application form. Shortlisted candidates are invited to Finalist Day, where they meet with the ARPL leadership team for a short assessment interview. Offers are made within two weeks of Finalist Day.</p>
+        <div class="apply-details">
+          <div class="apply-detail-row"><span>Program duration</span><span>Academic year (Nov – Jun)</span></div>
+          <div class="apply-detail-row"><span>Commitment</span><span>12–15 hrs / month</span></div>
+          <div class="apply-detail-row"><span>Cohort size</span><span>~30 scholars</span></div>
+          <div class="apply-detail-row"><span>Mentorship</span><span>1-on-1 weekly sessions</span></div>
+          <div class="apply-detail-row"><span>Outcome</span><span class="gold">Peer-reviewed publication</span></div>
+          <div class="apply-detail-row"><span>Current eligibility</span><span class="gold">ALA students only</span></div>
+        </div>
+        <a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener" class="btn-primary" style="display:block;text-align:center;margin-bottom:1rem">Submit an application</a>
+        <a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener" class="btn-ghost" style="display:block;text-align:center">Read the handbook first</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
 <footer>
   <div class="footer-inner">
     <div class="footer-cta-block reveal">
@@ -683,13 +1257,22 @@
     <div class="footer-bottom">
       <div class="footer-bottom-left">
         <a href="/" class="footer-logo" aria-label="ARPL"><img src="imgs/ARPL-cropped.svg" alt="ARPL"></a>
-        <span class="footer-tagline">First Research Program for Africans</span>
+        <span class="footer-tagline">Research training for African secondary school students</span>
       </div>
       <ul class="footer-links">
-        <li><a href="https://airtable.com/appmQ3BksDyYVQCWo/pagAWbjsV80whJwaH/form" target="_blank" rel="noopener">Apply</a></li>
+        <li><a href="#program">The Program</a></li>
+        <li><a href="#apply">Apply</a></li>
         <li><a href="https://arpl.notion.site/ARPL-Handbook-1c17c611bdf48022bc5cdde5ccc795c3" target="_blank" rel="noopener">Handbook</a></li>
         <li><a href="mailto:team@arpl.foundation">Contact</a></li>
       </ul>
+      <div class="social-links">
+        <a href="https://www.instagram.com/arpl.foundation" target="_blank" rel="noopener" class="social-link" aria-label="ARPL on Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/arpl-foundation" target="_blank" rel="noopener" class="social-link" aria-label="ARPL on LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
       <address class="footer-address" style="font-style:normal">
         1050 Printech Ave, Honeydew<br>Roodepoort, South Africa
       </address>
@@ -697,126 +1280,250 @@
   </div>
 </footer>
 
-<script type="module" src="js/spline.js"></script>
-
 <script>
-/* PARTICLES */
+/* ─────────────────────────────────────
+   STAR FIELD
+   Multi-layered: distant stars (small,
+   slow drift), mid stars (twinkle),
+   occasional bright star with halo.
+───────────────────────────────────── */
 (function(){
-  const c=document.getElementById('particle-canvas');
-  if(!c)return;
-  const x=c.getContext('2d');
-  let W=c.width=window.innerWidth,H=c.height=window.innerHeight;
-  const N=W<600?40:100;
-  const COLS=['rgba(203,172,109,0.55)','rgba(130,33,40,0.45)','rgba(255,255,255,0.35)'];
-  class P{
-    reset(r){this.x=Math.random()*W;this.y=r?Math.random()*H:H+5;this.rad=Math.random()*1.5+0.4;this.vx=(Math.random()-.5)*.3;this.vy=-(Math.random()*.35+.08);this.a=Math.random()*.5+.2;this.col=COLS[0|Math.random()*3];}
-    constructor(){this.reset(true);}
-    tick(){this.x+=this.vx;this.y+=this.vy;if(this.y<-5||this.x<-5||this.x>W+5)this.reset(false);}
-    draw(){x.globalAlpha=this.a;x.beginPath();x.arc(this.x,this.y,this.rad,0,6.28);x.fillStyle=this.col;x.fill();}
+  const canvas = document.getElementById('star-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-  const ps=Array.from({length:N},()=>new P());
-  (function loop(){x.clearRect(0,0,W,H);x.globalAlpha=1;ps.forEach(p=>{p.tick();p.draw();});requestAnimationFrame(loop);})();
-  let t;window.addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>{W=c.width=window.innerWidth;H=c.height=window.innerHeight;},150);});
+  resize();
+
+  /* ── Star types ── */
+  const STARS = [];
+  const TOTAL = window.innerWidth < 600 ? 180 : 340;
+
+  class Star {
+    constructor(){
+      this.init();
+    }
+    init(){
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.type = Math.random() < 0.04 ? 'bright' : Math.random() < 0.35 ? 'mid' : 'faint';
+      if(this.type === 'faint'){
+        this.r     = Math.random() * 0.6 + 0.2;
+        this.base  = Math.random() * 0.4 + 0.15;
+        this.vx    = (Math.random() - 0.5) * 0.04;
+        this.vy    = (Math.random() - 0.5) * 0.04;
+        this.twinkle = false;
+      } else if(this.type === 'mid'){
+        this.r     = Math.random() * 0.9 + 0.5;
+        this.base  = Math.random() * 0.55 + 0.25;
+        this.vx    = (Math.random() - 0.5) * 0.02;
+        this.vy    = (Math.random() - 0.5) * 0.02;
+        this.twinkle = true;
+        this.phase = Math.random() * Math.PI * 2;
+        this.speed = 0.008 + Math.random() * 0.012;
+        // gold tint for ~15% of mid stars
+        this.gold = Math.random() < 0.15;
+      } else { // bright
+        this.r     = Math.random() * 1.4 + 1.2;
+        this.base  = Math.random() * 0.5 + 0.5;
+        this.vx    = (Math.random() - 0.5) * 0.01;
+        this.vy    = (Math.random() - 0.5) * 0.01;
+        this.twinkle = true;
+        this.phase = Math.random() * Math.PI * 2;
+        this.speed = 0.005 + Math.random() * 0.008;
+        this.halo  = true;
+        this.gold  = Math.random() < 0.4;
+      }
+    }
+    tick(){
+      this.x += this.vx;
+      this.y += this.vy;
+      if(this.x < -2) this.x = W + 2;
+      if(this.x > W + 2) this.x = -2;
+      if(this.y < -2) this.y = H + 2;
+      if(this.y > H + 2) this.y = -2;
+      if(this.twinkle) this.phase += this.speed;
+    }
+    draw(){
+      let alpha = this.base;
+      if(this.twinkle) alpha = this.base * (0.65 + 0.35 * Math.sin(this.phase));
+
+      // halo for bright stars
+      if(this.halo){
+        const haloR = this.r * 4;
+        const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, haloR);
+        const col = this.gold ? `rgba(203,172,109,` : `rgba(240,236,228,`;
+        grd.addColorStop(0,   col + (alpha * 0.35) + ')');
+        grd.addColorStop(1,   col + '0)');
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, haloR, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+      }
+
+      // star core
+      const col = this.gold ? `rgba(203,172,109,${alpha})` : `rgba(240,236,228,${alpha})`;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = col;
+      ctx.fill();
+    }
+  }
+
+  for(let i = 0; i < TOTAL; i++) STARS.push(new Star());
+
+  /* ── Shooting star state ── */
+  let shoot = null;
+  function maybeShoot(){
+    if(!shoot && Math.random() < 0.003){
+      const startX = Math.random() * W * 0.7;
+      const startY = Math.random() * H * 0.4;
+      shoot = { x: startX, y: startY, life: 0, maxLife: 55 + Math.random() * 30,
+                vx: 4 + Math.random() * 3, vy: 2 + Math.random() * 2 };
+    }
+  }
+  function drawShoot(){
+    if(!shoot) return;
+    shoot.x += shoot.vx; shoot.y += shoot.vy; shoot.life++;
+    const prog = shoot.life / shoot.maxLife;
+    const alpha = prog < 0.2 ? prog / 0.2 : 1 - (prog - 0.2) / 0.8;
+    const tailLen = 60 + shoot.vx * 8;
+    const grd = ctx.createLinearGradient(shoot.x - tailLen, shoot.y - tailLen * 0.5, shoot.x, shoot.y);
+    grd.addColorStop(0, 'rgba(203,172,109,0)');
+    grd.addColorStop(1, `rgba(240,236,228,${alpha * 0.9})`);
+    ctx.beginPath();
+    ctx.moveTo(shoot.x - tailLen, shoot.y - tailLen * 0.5);
+    ctx.lineTo(shoot.x, shoot.y);
+    ctx.strokeStyle = grd;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    if(shoot.life >= shoot.maxLife || shoot.x > W + 100 || shoot.y > H + 100) shoot = null;
+  }
+
+  (function loop(){
+    ctx.clearRect(0, 0, W, H);
+    maybeShoot();
+    STARS.forEach(s => { s.tick(); s.draw(); });
+    drawShoot();
+    requestAnimationFrame(loop);
+  })();
+
+  let rt;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { resize(); }, 200);
+  });
 })();
 
-/* NAV SCROLL HIDE */
+/* ─────────────────────────────────────
+   NAV HIDE ON SCROLL
+───────────────────────────────────── */
 (function(){
-  const nav=document.getElementById('main-nav');
-  let last=0,tick=false;
-  window.addEventListener('scroll',()=>{
-    if(tick)return;tick=true;
-    requestAnimationFrame(()=>{
-      const y=window.scrollY;
-      nav.classList.toggle('hidden',y>80&&y>last);
-      if(y<=80)nav.classList.remove('hidden');
-      last=y;tick=false;
+  const nav = document.getElementById('main-nav');
+  let last = 0, ticking = false;
+  window.addEventListener('scroll', () => {
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      nav.classList.toggle('hidden', y > 80 && y > last);
+      if(y <= 80) nav.classList.remove('hidden');
+      last = y; ticking = false;
     });
   });
 })();
 
-/* MENU */
+/* ─────────────────────────────────────
+   MENU TOGGLE
+───────────────────────────────────── */
 (function(){
-  const btn=document.getElementById('menuBtn'),ov=document.getElementById('menuOverlay'),lbl=document.getElementById('menuLabel');
-  function open(){ov.classList.add('open');btn.classList.add('active');btn.setAttribute('aria-expanded','true');lbl.textContent='Close';document.body.style.overflow='hidden';}
-  function close(){ov.classList.remove('open');btn.classList.remove('active');btn.setAttribute('aria-expanded','false');lbl.textContent='Menu';document.body.style.overflow='';}
-  btn.addEventListener('click',()=>ov.classList.contains('open')?close():open());
-  ov.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  const btn = document.getElementById('menuBtn');
+  const ov  = document.getElementById('menuOverlay');
+  const lbl = document.getElementById('menuLabel');
+  function open(){ ov.classList.add('open'); btn.classList.add('active'); btn.setAttribute('aria-expanded','true'); lbl.textContent='Close'; document.body.style.overflow='hidden'; }
+  function close(){ ov.classList.remove('open'); btn.classList.remove('active'); btn.setAttribute('aria-expanded','false'); lbl.textContent='Menu'; document.body.style.overflow=''; }
+  btn.addEventListener('click', () => ov.classList.contains('open') ? close() : open());
+  ov.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  document.addEventListener('keydown', e => { if(e.key==='Escape') close(); });
 })();
 
-/* HERO ANIMATIONS */
-window.addEventListener('load',()=>{
-  if(typeof gsap==='undefined')return;
-  gsap.timeline({delay:.3})
-    .to('#heroEyebrow',{opacity:1,y:0,duration:.8,ease:'power3.out'})
-    .to('#heroTitle',  {opacity:1,y:0,duration:1, ease:'power3.out'},'-=.5')
-    .to('#heroActions',{opacity:1,y:0,duration:.8,ease:'power3.out'},'-=.6')
-    .to('#scrollCue',  {opacity:1,    duration:.8,ease:'power2.out'},'-=.2');
-  if(typeof ScrollTrigger!=='undefined'){
+/* ─────────────────────────────────────
+   HERO ANIMATIONS
+───────────────────────────────────── */
+window.addEventListener('load', () => {
+  if(typeof gsap === 'undefined') return;
+  gsap.timeline({ delay: 0.4 })
+    .to('#heroEyebrow', { opacity:1, y:0, duration:.8, ease:'power3.out' })
+    .to('#heroTitle',   { opacity:1, y:0, duration:1,  ease:'power3.out' }, '-=.5')
+    .to('#heroSub',     { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.6')
+    .to('#heroActions', { opacity:1, y:0, duration:.8, ease:'power3.out' }, '-=.5')
+    .to('#scrollCue',   { opacity:1,      duration:.8, ease:'power2.out' }, '-=.2');
+
+  if(typeof ScrollTrigger !== 'undefined'){
     gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.reveal').forEach(el=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%'},opacity:1,y:0,duration:.9,ease:'power3.out'}));
-    gsap.utils.toArray('.impact-card').forEach((el,i)=>gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:.7,ease:'power3.out',delay:i*.1}));
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.to(el, {
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+        opacity:1, y:0, duration:.85, ease:'power3.out'
+      });
+    });
   }
 });
 
-/* TEAM CAROUSEL — recalculates on resize */
+/* ─────────────────────────────────────
+   TEAM CAROUSEL
+───────────────────────────────────── */
 (function(){
-  const track=document.getElementById('teamTrack'),prev=document.getElementById('teamPrev'),next=document.getElementById('teamNext'),dots=document.getElementById('teamDots');
-  if(!track||!prev)return;
-  let cur=0,ap,st={};
+  const track = document.getElementById('teamTrack');
+  const prev  = document.getElementById('teamPrev');
+  const next  = document.getElementById('teamNext');
+  const dots  = document.getElementById('teamDots');
+  if(!track || !prev) return;
+  let cur=0, ap, st={};
 
   function measure(){
-    const card=track.querySelector('.team-card');
-    const gap=parseFloat(getComputedStyle(track).gap)||20;
-    const cw=card?card.offsetWidth+gap:284;
-    const vis=Math.max(1,Math.floor(track.parentElement.offsetWidth/cw));
-    const tot=track.querySelectorAll('.team-card').length;
-    return{cw,vis,tot,max:Math.max(0,tot-vis)};
+    const card = track.querySelector('.team-card');
+    const gap  = parseFloat(getComputedStyle(track).gap) || 20;
+    const cw   = card ? card.offsetWidth + gap : 284;
+    const vis  = Math.max(1, Math.floor(track.parentElement.offsetWidth / cw));
+    const tot  = track.querySelectorAll('.team-card').length;
+    return { cw, vis, tot, max: Math.max(0, tot - vis) };
   }
-
   function buildDots(pages){
     dots.innerHTML='';
     for(let i=0;i<pages;i++){
       const d=document.createElement('button');
       d.className='team-dot'+(i===0?' active':'');
-      d.setAttribute('role','tab');d.setAttribute('aria-label','Page '+(i+1));
+      d.setAttribute('role','tab'); d.setAttribute('aria-label','Page '+(i+1));
       d.addEventListener('click',()=>go(i*st.vis));
       dots.appendChild(d);
     }
   }
-
   function updDots(){
     const p=Math.round(cur/st.vis);
     dots.querySelectorAll('.team-dot').forEach((d,i)=>d.classList.toggle('active',i===p));
   }
-
   function go(idx){
     cur=Math.max(0,Math.min(idx,st.max));
     const x=-(cur*st.cw);
-    if(typeof gsap!=='undefined')gsap.to(track,{x,duration:.55,ease:'power3.out'});
+    if(typeof gsap!=='undefined') gsap.to(track,{x,duration:.55,ease:'power3.out'});
     else track.style.transform='translateX('+x+'px)';
     updDots();
   }
-
-  function startAp(){clearInterval(ap);ap=setInterval(()=>go(cur>=st.max?0:cur+1),4000);}
-
-  function init(){
-    st=measure();cur=Math.min(cur,st.max);
-    buildDots(Math.ceil(st.tot/st.vis));go(cur);startAp();
-  }
-
+  function startAp(){ clearInterval(ap); ap=setInterval(()=>go(cur>=st.max?0:cur+1),4500); }
+  function init(){ st=measure(); cur=Math.min(cur,st.max); buildDots(Math.ceil(st.tot/st.vis)); go(cur); startAp(); }
   init();
   track.addEventListener('mouseenter',()=>clearInterval(ap));
   track.addEventListener('mouseleave',startAp);
   prev.addEventListener('click',()=>go(cur>0?cur-1:st.max));
   next.addEventListener('click',()=>go(cur>=st.max?0:cur+1));
-
   let tx=0;
   track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
   track.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>40)go(d>0?cur+1:cur-1);});
-
-  let rt;
-  window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
+  let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(init,200);});
 })();
 </script>
 </body>
