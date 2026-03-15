@@ -782,26 +782,22 @@
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 5.5vw, 5rem);
       font-weight: 300; letter-spacing: -0.02em;
-      position: relative; display: inline-block; word-break: break-all;
-      color: transparent;
-    }
-    .footer-email-link::before {
-      content: 'info@arpl.africa';
-      position: absolute; inset: 0;
+      display: inline-block; word-break: break-all;
+      /* base color: dim */
       color: var(--faint);
-      transition: opacity 0.45s ease;
-    }
-    .footer-email-link::after {
-      content: 'info@arpl.africa';
-      position: absolute; inset: 0;
-      background: var(--grad-text); background-size: 200%;
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-      opacity: 0; transition: opacity 0.45s ease;
+      /* gradient text on hover via background-clip */
+      background: var(--grad-text);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: -webkit-text-fill-color 0s, color 0.45s ease, opacity 0.45s ease;
       animation: shimmer 5s ease infinite;
     }
-    .footer-email-link:hover::before { opacity: 0; }
-    .footer-email-link:hover::after  { opacity: 1; }
+    .footer-email-link:hover {
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
     .footer-bottom {
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1.5rem;
@@ -1585,7 +1581,7 @@
     <div class="footer-cta-block reveal">
       <p class="footer-cta-label">Get in touch</p>
       <a href="mailto:info@arpl.africa" class="footer-email-link">
-        &ZeroWidthSpace;
+        info@arpl.africa
       </a>
     </div>
     <div class="footer-bottom">
